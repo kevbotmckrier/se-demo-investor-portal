@@ -1,0 +1,34 @@
+{% extends "bain.html" %}
+{% block title %}Investor Dashboard{% endblock %}
+{% block content %}
+
+<div>
+    <h2>Welcome {{ user.username }}!</h2>
+    <p>This dashboard helps track your investments with Bain Capital.</p>
+</div>
+
+<div class="row text-center mb-3">
+    <div class="col-md-4">
+        <h3 class="bg-primary p-2 display-4 rounded text-white"><strong>110M</strong></h3>
+    </div>
+    <div class="col-md-4">
+        <h3 class="bg-warning p-2 display-4 rounded text-white"><strong>44M</strong></h3>
+    </div>
+    <div class="col-md-4">
+        <h3 class="bg-danger p-2 display-4 rounded text-white"><strong>66M</strong></h3>
+    </div>
+</div>
+<br>
+<hr>
+<br>
+<div class="row">
+    <div class="col-md-8">
+        <h4>Portfolio Breakdown</h4>
+        <img src="/static/bain-pie-chart.png" class="img-fluid" alt="Bain Pie Chart">
+    </div>
+    <div class="col-md-4">
+        <h4>News Feed</h4>
+        <img src="/static/bain-news-feed-short.png" class="img-fluid" alt="Bain Returns Graph">
+    </div>
+</div>
+{% endblock %}
