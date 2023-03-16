@@ -10,7 +10,7 @@
 </head>
 
 <main class="d-flex flex-nowrap">
-    <div class="d-flex sidebar flex-column flex-shrink-0 p-3 text-bg-dark" style="width: 280px;">
+    <div class="d-flex sidebar flex-column flex-shrink-0 p-3 text-bg-dark" id="sidebar">
         <a href="/bain/login" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
             <img src="/static/bain-logo.png" width="35" height="35" alt="Bain Capital Logo" class="me-2">
             <span class="fs-4">Investor Portal</span>
@@ -56,6 +56,18 @@
             {% endblock %}
         </div>
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+      <script>
+        // Get the container element
+        const sidebar = document.getElementById("sidebar");
+        const links = sidebar.getElementsByClassName('nav-link');
+        const currentPage = location.pathname
+        for (let i = 0; i < links.length; i++) {
+          var l = links[i];
+          if (currentPage === l.pathname) {
+            l.classList.add("active")
+          }
+        }
+      </script>
       </body>
 </main>
 </html>
