@@ -6,63 +6,69 @@ import requests
 
 # Load local .env file and assign org ID and key for auth
 load_dotenv(verbose=True)
-KKMT_ORG_ID = os.environ.get("KKMT_ORG_ID")
-KKMT_API_KEY = os.environ.get("KKMT_API_KEY")
+ORG_ID = os.environ.get("KKMT_ORG_ID")
+API_KEY = os.environ.get("KKMT_API_KEY")
 
 app = Flask(__name__)
+app.config.from_file("config.json", load=json.load)
+
+@app.context_processor
+def custom_values():
+    return dict(
+        company_name = app.config.get("COMPANY_NAME"),
+        company_name_short = app.config.get("COMPANY_NAME_SHORT"),
+        company_logo = app.config.get("COMPANY_LOGO"),
+        username = app.config.get("USERNAME")
+    )
 
 @app.route('/')
 @app.route('/index')
 def index():
 
-    return render_template('bain-login.html', title='Bain Login')
+    return render_template('login.html')
 
-@app.route('/bain/login', methods= ['GET'])
+@app.route('/login', methods= ['GET'])
 def bain_login():
     
-    return render_template('bain-login.html', title="Bain Login")
+    return render_template('login.html', title="Login Page")
 
 
-@app.route('/bain/dashboard', methods= ['GET'])
-def bain_render_dash():
-    user = {'username': 'John'}
+@app.route('/dashboard', methods= ['GET'])
+def render_dashboard():
+
+    return render_template('dashboard.html')
+
+
+@app.route('/payments', methods= ['GET'])
+def list_payments():
+    params = {
+        'type': 'wire',
+        'counterparty_id': '12c199b2-2f8e-46e3-866d-8bdf97cc317f',
+        'created_at_lower_bound': '2023-02-27'
+        }
+    data = list_expected_payments(ORG_ID, API_KEY, params=params)
+    resp_status = data.status_code
+    payments = data.json()
+    payment_count = str(len(payments))
+    pp_json = json.dumps(payments, indent=2)
     
-    return render_template('bain-dashboard.html', user=user)
+    return render_template('payments.html', status_code=resp_status, response_json=pp_json, payment_count=payment_count, payments=payments)
 
 
-@app.route('/bain/payments', methods= ['GET'])
-def bain_show_payments():
-    user = {'username': 'John'}
-    data = list_expected_payments(KKMT_ORG_ID, KKMT_API_KEY)
-    url = 'https://app.moderntreasury.com/api/expected_payments?type=wire&counterparty_id=12c199b2-2f8e-46e3-866d-8bdf97cc317f&created_at_lower_bound=2023-02-27'
-    try:
-        data = requests.get(url, auth=(KKMT_ORG_ID, KKMT_API_KEY))
-        resp_status = data.status_code
-        payments = data.json()
-        payment_count = str(len(payments))
-        pp_json = json.dumps(payments, indent=2)
-    except Exception as e:
-        print(e)
-        return "Call failed."
+@app.route('/distributions')
+def list_distributions():
+    params = {
+        'per_page': 25,
+        'counterparty_id': '12c199b2-2f8e-46e3-866d-8bdf97cc317f',
+        'effective_date_end': '2023-03-01'
+    }
+    data = list_payment_orders(ORG_ID, API_KEY, params=params)
+    resp_status = data.status_code
+    payments = data.json()
+    payment_count = str(len(payments))
+    pp_json = json.dumps(payments, indent=2)
     
-    return render_template('bain-payments.html', user=user, status_code=resp_status, response_json=pp_json, payment_count=payment_count, payments=payments)
-
-
-@app.route('/bain/distributions')
-def bain_list_distributions():
-    user = {'username': 'John'}
-    url = 'https://app.moderntreasury.com/api/payment_orders?per_page=25&counterparty_id=12c199b2-2f8e-46e3-866d-8bdf97cc317f&effective_date_end=2023-03-01'
-    try:
-        data = requests.get(url, auth=(KKMT_ORG_ID, KKMT_API_KEY))
-        resp_status = data.status_code
-        payments = data.json()
-        payment_count = str(len(payments))
-        pp_json = json.dumps(payments, indent=2)
-    except Exception as e:
-        print(e)
-        return "Call failed."
-    
-    return render_template ('bain-distributions.html', user=user, status_code=resp_status, response_json=pp_json, payment_count=payment_count, payments=payments)
+    return render_template ('distributions.html', status_code=resp_status, response_json=pp_json, payment_count=payment_count, payments=payments)
 
 
 # NON-ROUTE METHODS BELOW
@@ -118,10 +124,20 @@ def create_va(payload, org_id, api_key):
         return "Call failed."
 
 
-def list_expected_payments(org_id, api_key):
+def list_expected_payments(org_id, api_key, params=None):
     url = 'https://app.moderntreasury.com/api/expected_payments'
     try:
-        resp = requests.get(url, auth=(org_id, api_key))
+        resp = requests.get(url, auth=(org_id, api_key), params=params)
+        return resp
+    except Exception as e:
+        print(e)
+        return "Call failed."
+
+
+def list_payment_orders(org_id, api_key, params=None):
+    url = 'https://app.moderntreasury.com/api/payment_orders'
+    try:
+        resp = requests.get(url, auth=(org_id, api_key), params=params)
         return resp
     except Exception as e:
         print(e)

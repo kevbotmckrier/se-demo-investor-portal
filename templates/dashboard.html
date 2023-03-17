@@ -1,10 +1,10 @@
-{% extends "bain.html" %}
+{% extends "base.html" %}
 {% block title %}Investor Dashboard{% endblock %}
 {% block content %}
 
 <div>
-    <h2>Welcome {{ user.username }}!</h2>
-    <p>This dashboard helps track your investments with Bain Capital.</p>
+    <h2>Welcome {{ username }}!</h2>
+    <p>This dashboard helps track your investments with {{ company_name }}.</p>
 </div>
 
 <div class="row text-center mb-3">
@@ -24,11 +24,11 @@
 <div class="row">
     <div class="col-md-8">
         <h4>Portfolio Breakdown</h4>
-        <img src="/static/bain-pie-chart.png" class="img-fluid" alt="Bain Pie Chart">
+        <img src="/static/bain-pie-chart.png" class="img-fluid" alt="{{ company_name }} Pie Chart">
     </div>
     <div class="col-md-4">
         <h4>News Feed</h4>
-        <img src="/static/bain-news-feed-short.png" class="img-fluid" alt="Bain Returns Graph">
+        <img src="/static/bain-news-feed-short.png" class="img-fluid" alt="{{ company_name }} Returns Graph">
     </div>
 </div>
 {% endblock %}

@@ -1,4 +1,4 @@
-{% extends "bain.html" %}
+{% extends "base.html" %}
 {% block title %}Investor Distributions{% endblock %}
 {% block content %}
 <div class="card">
@@ -7,8 +7,8 @@
         <strong>Distribution Summary</strong>
     </div>
     <div class="card-body">
-        <p>Hi {{ user.username }},</p>
-        <p>You have <strong>{{ payment_count }} distributions</strong> from Bain Capital.</p>
+        <p>Hi {{ username }},</p>
+        <p>You have <strong>{{ payment_count }} distributions</strong> from {{ company_name }}.</p>
         <p>Review the details in the table below:</p>
     </div>
   </div>
@@ -44,20 +44,4 @@
         </tbody>
       </table>
 </div>
-<!-- <h3>API Response (JSON)</h3>
-<div class="accordion" id="accordionExample">
-    <div class="accordion-item">
-        <h3 class="accordion-header" id="headingOne">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                Click to expand/collapse
-            </button>
-        </h3>
-        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-            <div class="accordion-body">
-                <pre class="rounded p-3">{{ response_json }}</pre>
-            </div>
-        </div>
-    </div>
-</div> -->
-
 {% endblock %}

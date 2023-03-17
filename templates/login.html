@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-        <title>{% block title %}{% endblock %}</title>
+        <title>{{ company_name }} Login</title>
         <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
         <!-- <link href="/static/style.css" rel="stylesheet"> -->
 
@@ -13,8 +13,12 @@
     </head>
     <body class="text-center">
         <main class="form-signin">
+            <h2>
+                <img src="..{{ company_logo }}" width="45" height="45" alt="{{ company_name }} Logo">
+                {{ company_name }}
+            </h2>
+            <hr class="mb-3">
             <form>
-                <img class="mb-4" src="../static/bain-capital-logo.svg" alt="">
                 <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
                 <div class="form-floating">
                     <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
@@ -29,8 +33,8 @@
                         <input type="checkbox" value="remember-me"> Remember me
                     </label>
                 </div>
-                <a class="btn btn-lg btn-primary" href="/bain/dashboard">Log in</a>
-                <p class="mt-5 mb-3 text-muted">&copy; 2023</p>
+                <a class="btn btn-lg btn-primary" href="/dashboard">Log in</a>
+                <p class="mt-5 mb-3 text-muted">&copy; 2023 {{ company_name }}</p>
             </form>
         </main>
     </body>

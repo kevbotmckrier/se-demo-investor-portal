@@ -16,6 +16,11 @@ API_KEY=<INSERT_API_KEY>
 Make sure to add the `.env` file to `.gitignore` to ensure you don't commit it.
 
 ## Usage
+I recommend turning on debug mode to hot reload changes without having to restart the server. Run the following to enable:
+
+```
+export FLASK_DEBUG=1 
+```
 
 To run app as-is:
 ```python

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bain Demo</title>
+    <title>{{ company_name }} Demo</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <link href="/static/style.css" rel="stylesheet">
@@ -11,26 +11,26 @@
 
 <main class="d-flex flex-nowrap">
     <div class="d-flex sidebar flex-column flex-shrink-0 p-3 text-bg-dark" id="sidebar">
-        <a href="/bain/login" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-            <img src="/static/bain-logo.png" width="35" height="35" alt="Bain Capital Logo" class="me-2">
+        <a href="/login" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+            <img src="{{ company_logo }}" width="35" height="35" alt="{{ company_name }} Logo" class="me-2">
             <span class="fs-4">Investor Portal</span>
         </a>
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
           <li>
-            <a href="/bain/dashboard" class="nav-link text-white">
+            <a href="/dashboard" class="nav-link text-white">
               <i class="bi-speedometer"></i>
               Dashboard
             </a>
           </li>
           <li>
-            <a href="/bain/payments" class="nav-link text-white">
+            <a href="/payments" class="nav-link text-white">
               <i class="bi-wallet2"></i>
               Capital Calls
             </a>
           </li>
           <li>
-            <a href="/bain/distributions" class="nav-link text-white">
+            <a href="/distributions" class="nav-link text-white">
               <i class="bi-coin"></i>
               Distributions
             </a>
@@ -40,7 +40,7 @@
         <div class="dropdown">
           <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
             <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
-            <strong>John Smith</strong>
+            <strong>{{ username }}</strong>
           </a>
           <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
             <li><a class="dropdown-item" href="#">Sign out</a></li>
