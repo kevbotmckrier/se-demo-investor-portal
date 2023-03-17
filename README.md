@@ -1,6 +1,6 @@
 # se-demo-investor-portal
 
-MT Sales Engineering demo investor portal to show how MT can integrate with any web app.
+MT Sales Engineering demo investor portal to show how MT can easily integrate with web applications to power more real-time reporting around money movement. The app in this repo is deployed at: https://demo-investor-portal.onrender.com/login
 
 ## Installation
 
