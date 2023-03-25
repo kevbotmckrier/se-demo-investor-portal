@@ -6,8 +6,15 @@ import requests
 
 # Load local .env file and assign org ID and key for auth
 load_dotenv(verbose=True)
-ORG_ID = os.environ.get("KKMT_ORG_ID")
-API_KEY = os.environ.get("KKMT_API_KEY")
+ORG_ID = os.environ.get("ORG_ID")
+API_KEY = os.environ.get("API_KEY")
+
+#Pull in backend config values
+distributions_start_date = os.environ.get("DISTRIBUTIONS_START_DATE")
+distributions_end_date = os.environ.get("DISTRIBUTIONS_END_DATE")
+payins_start_date = os.environ.get("PAYINS_START_DATE")
+counterparty_id = os.environ.get("COUNTERPARTY_ID")
+counterparty_id = os.environ.get("COUNTERPARTY_ID")
 
 app = Flask(__name__)
 app.config.from_file("config.json", load=json.load)
@@ -43,7 +50,7 @@ def render_dashboard():
 def list_payments():
     params = {
         'type': 'wire',
-        'counterparty_id': '12c199b2-2f8e-46e3-866d-8bdf97cc317f',
+        'counterparty_id': '574f75ea-5e22-430a-ab25-3bf7fa319e4a',
         'created_at_lower_bound': '2023-02-27'
         }
     data = list_expected_payments(ORG_ID, API_KEY, params=params)
@@ -59,8 +66,9 @@ def list_payments():
 def list_distributions():
     params = {
         'per_page': 25,
-        'counterparty_id': '12c199b2-2f8e-46e3-866d-8bdf97cc317f',
-        'effective_date_end': '2023-03-01'
+        'counterparty_id': '574f75ea-5e22-430a-ab25-3bf7fa319e4a',
+        'effective_date_end': '2023-04-01',
+        'effective_date_start': '2023-03-24'
     }
     data = list_payment_orders(ORG_ID, API_KEY, params=params)
     resp_status = data.status_code
