@@ -2,5 +2,10 @@
     "COMPANY_NAME": "Altimeter Capital",
     "COMPANY_NAME_SHORT": "Altimeter",
     "COMPANY_LOGO": "/static/altimeter-logo.png",
-    "USERNAME": "Brad"
+    "USERNAME": "Brad",
+    "COUNTERPARTY_ID": "574f75ea-5e22-430a-ab25-3bf7fa319e4a",
+    "DISTRIBUTIONS_START_DATE": "2023-03-24",
+    "DISTRIBUTIONS_END_DATE": "2023-04-01",
+    "PAYINS_START_DATE": "2023-02-27"
+
 }
