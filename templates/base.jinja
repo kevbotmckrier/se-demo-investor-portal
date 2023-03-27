@@ -17,30 +17,19 @@
         </a>
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
+          {% for navItem in pages_available %}
           <li>
-            <a href="/dashboard" class="nav-link text-white">
-              <i class="bi-speedometer"></i>
-              Dashboard
+            <a href="{{ navItem.route }}" class="nav-link text-white">
+              <i class="bi-speedometer">{{ navItem.description }}</i>
             </a>
           </li>
-          <li>
-            <a href="/payments" class="nav-link text-white">
-              <i class="bi-wallet2"></i>
-              Capital Calls
-            </a>
-          </li>
-          <li>
-            <a href="/distributions" class="nav-link text-white">
-              <i class="bi-coin"></i>
-              Distributions
-            </a>
-          </li>
+          {% endfor %}
         </ul>
         <hr>
         <div class="dropdown">
           <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
             <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
-            <strong>{{ username }}</strong>
+            <strong>{{ session['human_name'] }}</strong>
           </a>
           <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
             <li><a class="dropdown-item" href="#">Sign out</a></li>
@@ -64,6 +53,7 @@
         for (let i = 0; i < links.length; i++) {
           var l = links[i];
           if (currentPage === l.pathname) {
+            console.log(l.pathname)
             l.classList.add("active")
           }
         }

@@ -1,0 +1,42 @@
+{% extends "base.jinja" %}
+{% block title %}{{ customer_noun }} - New Deposit{% endblock %}
+{% block content %}
+
+<form action="{{ url_for('create_bank_deposit') }}" method="post">
+    <div class="row">
+      <div class="form-group col">
+        <label>Payment Method</label>
+        <select class="form-select" name="payment-method">
+          <option value="ach">ACH</option>
+          <option value="same-day-ach">Same-day ACH</option>
+          <option disabled>RFP</option>
+        </select>
+      </div>
+      <div class="form-group col">
+        <label>Bank Account</label>
+        <select class="form-select" name="bank-account">
+          {% for bankAccount in bank_accounts %}
+          <option value = "{{ bankAccount.id }}">{% if bankAccount.routing_details[0].bank_name|length > 24 %} {{ bankAccount.routing_details[0].bank_name[:22] }}..... {% else %} {{[bankAccount.routing_details[0].bank_name]}} {% endif %} ••••••{{ bankAccount.account_details[0].account_number_safe }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">$</span>
+        </div>
+        <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" name="amount">
+        <div class="input-group-append">
+          <span class="input-group-text">.00</span>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <button type="submit" class="btn btn-success btm-lg">Submit</button>
+      </div>
+    </div>
+</form>
+
+{% endblock %}

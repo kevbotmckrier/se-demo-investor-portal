@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base.jinja" %}
 {% block title %}Investor Payments{% endblock %}
 {% block content %}
 <div class="card">
@@ -7,7 +7,7 @@
         <strong>Payment Summary</strong>
     </div>
     <div class="card-body">
-        <p>Hi {{ username }},</p>
+        <p>Hi {{ session['human_name'] }},</p>
         <p>You have sent <strong>{{ payment_count }} capital call</strong> wires to {{ company_name }}.
             Review the details in the table below:</p>
         <p>Thanks for investing with {{ company_name }}.</p>

@@ -1,11 +1,106 @@
 {
-    "COMPANY_NAME": "Altimeter Capital",
-    "COMPANY_NAME_SHORT": "Altimeter",
+    "COMPANY_NAME": "Modern Treasury Capital",
+    "COMPANY_NAME_SHORT": "MTC",
     "COMPANY_LOGO": "/static/altimeter-logo.png",
-    "USERNAME": "Brad",
     "COUNTERPARTY_ID": "574f75ea-5e22-430a-ab25-3bf7fa319e4a",
     "DISTRIBUTIONS_START_DATE": "2023-03-24",
     "DISTRIBUTIONS_END_DATE": "2023-04-01",
-    "PAYINS_START_DATE": "2023-02-27"
-
+    "PAYINS_START_DATE": "2023-02-27",
+    "DEFAULT_ENTRY_POINT": "/signup",
+    "CUSTOMER_NOUN": "Treasurers",
+    "PRODUCT_ATTRIBUTES": {
+        "nouns": "balances and investments"
+    },
+    "ORIGINATING_ACCOUNT_ID": "c59851c8-614f-4a6c-9c8c-6394f172d859",
+    "PAGES_AVAILABLE": [
+        {
+            "name": "dashboard",
+            "route": "/dashboard",
+            "description": "Dashboard"
+        },
+        {
+            "name": "ledger-dashboard",
+            "route": "/ledger-dashboard",
+            "description": "Ledger Dashboard"
+        },
+        {
+            "name": "payments",
+            "route": "/payments",
+            "description": "Capital Calls"
+        },
+        {
+            "name": "distributions",
+            "route": "/distributions",
+            "description": "Distributions"
+        },
+        {
+            "name": "new_bank_deposit",
+            "route": "/bank-deposit",
+            "description": "Deposit from Bank Account"
+        }
+    ],
+    "USER_ATTRIBUTES": [
+        {
+            "var_name": "email",
+            "long": "Email Address",
+            "short": "Email",
+            "unique": "Yes",
+            "placeholder": "name@example.com",
+            "add_to_metadata": true
+        },
+        {
+            "var_name": "human_name",
+            "long": "Your Name",
+            "short": "Name",
+            "unique": "Yes",
+            "add_to_metadata": false
+        },
+        {
+            "var_name": "state",
+            "long": "State",
+            "short": "State",
+            "unique": "No",
+            "add_to_metadata": true
+        }
+    ],
+    "USER_LEDGER_ACCOUNTS": [
+        {
+            "name": "USD Balance",
+            "currency": "USD",
+            "normal_balance": "credit",
+            "metadata": {
+                "type": "user-balance",
+                "currency_type": "fiat",
+                "name": "usd-balance"
+            },
+            "categories": [
+                "all-usd-accounts"
+            ]
+        },
+        {
+            "name": "USD Margin",
+            "currency": "USD",
+            "normal_balance": "credit",
+            "metadata": {
+                "type": "user-balance",
+                "currency_type": "fiat",
+                "name": "usd-margin"
+            },
+            "categories": [
+                "all-usd-accounts"
+            ]
+        }
+    ],
+    "USER_ACCOUNT_CATEGORIES": [
+        {
+            "name": "all-usd-accounts",
+            "currency": "USD",
+            "normal_balance": "credit",
+            "metadata": {
+                "type": "user-balance",
+                "aggregate-type": "currency-parent",
+                "currency_type": "fiat"
+            }
+        }
+    ]
 }
