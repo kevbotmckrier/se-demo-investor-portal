@@ -4,7 +4,6 @@ import json
 import os
 import sys
 
-
 # Load local .env file and assign org ID and key for auth
 load_dotenv(verbose=True)
 ORG_ID = os.environ.get("ORG_ID")

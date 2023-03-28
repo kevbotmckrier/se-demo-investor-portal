@@ -38,33 +38,61 @@ def load_ledger(ledger_id):
 #Otherwise, create a new Ledger on startup
 if 'ledger' not in globals():
     ledger_name = app.config['COMPANY_NAME'] + ' - ' + date.today().isoformat()
+    
+    ##Check for existing ledgers
     ledgers_with_that_name = modern_treasury.ledgers.list(metadata={"name": ledger_name}).items
     if(len(ledgers_with_that_name) > 0):
+        
         ledger = ledgers_with_that_name[0]
+        uncategorized_cash_accounts = modern_treasury.ledger_accounts.list(ledger_id=ledger.id, metadata={'type': 'cash-account'})
+
+        cash_accounts = dict()
+
+        for cash_account in uncategorized_cash_accounts:
+            cash_accounts[cash_account.metadata['bank']] = cash_account
+
     else:
         ledger = modern_treasury.ledgers.create(name = app.config['COMPANY_NAME'] + ' - ' + date.today().isoformat(), metadata= { "name": ledger_name})
+
+        cash_accounts = dict()
+
+        for cash_account in app.config['CUSTOMER_CASH_ACCOUNTS']:
+            cash_accounts[cash_account['bank']] = modern_treasury.ledger_accounts.create(
+                currency=cash_account['currency'],
+                ledger_id=ledger.id,
+                name=cash_account['vendor'] + ' - ' + cash_account['bank'],
+                normal_balance='debit',
+                metadata= {
+                    'type': 'cash-account',
+                    'bank': cash_account['bank']
+                    }
+            )
 
 app.secret_key = ledger.id
 
 @app.context_processor
 def custom_values():
     return dict(
-        company_name = app.config.get("COMPANY_NAME"),
-        company_name_short = app.config.get("COMPANY_NAME_SHORT"),
-        company_logo = app.config.get("COMPANY_LOGO"),
-        user_attributes = app.config.get("USER_ATTRIBUTES"),
+        company_name = app.config["COMPANY_NAME"],
+        company_name_short = app.config["COMPANY_NAME_SHORT"],
+        company_logo = app.config["COMPANY_LOGO"],
+        user_attributes = app.config["USER_ATTRIBUTES"],
         product_attributes = app.config['PRODUCT_ATTRIBUTES'],
         customer_noun = app.config['CUSTOMER_NOUN'],
         pages_available = app.config['PAGES_AVAILABLE'],
+        items_available_for_sale_collective_noun = app.config['ITEMS_FOR_SALE_COLLECTIVE_NOUN'],
+        items_available_for_purchase = app.config['ITEMS_AVAILABLE_FOR_PURCHASE']
     )
 
 @app.route('/signup')
 def signup():
-    return render_template('signup.jinja', title=f"{app.config['COMPANY_NAME']} - Signup Page")
+    session.clear()
+
+    return signup_page()
 
 @app.route('/login')
 def login():
-    return render_template('login.jinja', title=f"{app.config['COMPANY_NAME']} - Login Page")
+    return login_page()
 
 
 @app.route('/dashboard', methods= ['GET'])
@@ -75,6 +103,15 @@ def render_dashboard():
 @app.route('/ledger-dashboard', methods=['POST'])
 def create_user():
     if 'email' in session:
+        user_ledger_info = retrieve_user_ledger_info(session['email'])
+        if(len(user_ledger_info['user_ledger_accounts'].items) > 0):
+
+            return render_template('ledger-dashboard.jinja', 
+                ledger_account_categories=user_ledger_info['user_ledger_account_categories'].items,
+                ledger_accounts=user_ledger_info['user_ledger_accounts'].items,
+                usd_balance = user_ledger_info['user_usd_balance'].items[0],
+                )
+        
         return render_template('ledger-dashboard.jinja')
     elif 'email' in request.form:
         session['email'] = request.form['email']
@@ -84,9 +121,9 @@ def create_user():
         if(len(user_ledger_info['user_ledger_accounts'].items) > 0):
 
             return render_template('ledger-dashboard.jinja', 
-                ledger_account_categories=user_ledger_info['user_ledger_account_categories'],
-                ledger_accounts=user_ledger_info['user_ledger_accounts'],
-                usd_balance = user_ledger_info['user_usd_balance'],
+                ledger_account_categories=user_ledger_info['user_ledger_account_categories'].items,
+                ledger_accounts=user_ledger_info['user_ledger_accounts'].items,
+                usd_balance = user_ledger_info['user_usd_balance'].items[0],
                 )
         else:
             for attribute in app.config["USER_ATTRIBUTES"]:
@@ -124,7 +161,8 @@ def create_user():
                     normal_balance=la['normal_balance'],
                     currency=la['currency'],
                     ledger_id=ledger.id,
-                    metadata=la['metadata']
+                    metadata=la['metadata'],
+                    currency_exponent= la['currency_exponent'] if 'currency_exponent' in la else None
                     )
                 
                 if(la['metadata']['name'] == 'usd-balance'):
@@ -195,25 +233,76 @@ def bank_deposit_page():
 @app.route('/new-bank-deposit', methods=['GET','POST'])
 def create_bank_deposit():
 
-    print(request.form)
-
     payment_order = modern_treasury.payment_orders.create(
-        amount=request.form['amount'],
+        amount=int(request.form['amount']),
         direction='debit',
         originating_account_id=app.config['ORIGINATING_ACCOUNT_ID'],
         type="ach",
         receiving_account_id=request.form['bank-account'],
-        priority="high" if request.form['payment-method'] == 'same-day-ach' else "normal"
-        # metadata=session
+        priority="high" if request.form['payment-method'] == 'same-day-ach' else "normal",
+        description=f"Deposit from bank account via {request.form['payment-method']} on " + date.today().strftime('%x'),
+        ledger_transaction=construct_deposit_ledger_transaction(
+            bank='jpm',
+            amount=request.form['amount'],
+            email=session['email'],
+            description=f"Deposit from bank account via {request.form['payment-method']} on " + date.today().strftime('%x'),
+            metadata={'user': session['email']}
+            )
     )
 
     return render_template('new-bank-deposit.jinja', deposit_info=payment_order)
 
+@app.route('/ledger-transactions', methods=['GET'])
+def view_ledger_transactions():
+
+    ledger_transactions = modern_treasury.ledger_transactions.list(metadata={
+        'user': session['email']
+    })
+
+    print(ledger_transactions.items)
+    print(ledger_transactions.items[0].description)
+
+    return render_template('ledger-transactions.jinja', ledger_transactions=ledger_transactions.items)
+
+@app.route('/purchase', methods=['GET'])
+def purchase_investments():
+
+    items_available_for_purchase = app.config['ITEMS_AVAILABLE_FOR_PURCHASE']
+    user_ledger_accounts = retrieve_user_ledger_info(session['email'])
+
+    for item in items_available_for_purchase:
+        print((random.randrange(-100 * item['variation_percent'],100* item['variation_percent']))/100)
+        item['current_price_in_usd_cents'] = round(item['price_in_usd'] + item['price_in_usd'] * ((random.randrange(-100 * item['variation_percent'],100* item['variation_percent']))/10000),0)
+        item['current_price_in_usd_dollars_formatted'] = '${:,.2f}'.format(item['current_price_in_usd_cents']/100)
+
+    return render_template('purchase.jinja', items_available_for_purchase=items_available_for_purchase, user_ledger_accounts=user_ledger_accounts)
+
+@app.post('/make-purchase')
+def make_purchase():
+    print(request.json)
+    return("test complete")
 
 @app.route('/')
 @app.route('/index')
 def use_configured_default():
-    return redirect(app.config['DEFAULT_ENTRY_POINT'], 307)
+
+    if 'email' in session:
+        return redirect(app.config['DETAULT_DASHBOARD_PATH'],307)
+
+    if(app.config['DEFAULT_ENTRY_POINT'] == "signup"):
+        return signup_page()
+    elif(app.config['DEFAULT_ENTRY_POINT'] == "login"):
+        return login_page()
+    else:
+        return signup_page()
+
+#### Re-used renders
+def login_page():
+    return render_template('login.jinja', title=f"{app.config['COMPANY_NAME']} - Login Page")
+
+def signup_page():
+    return render_template('signup.jinja', title=f"{app.config['COMPANY_NAME']} - Signup Page")
+
 
 # NON-ROUTE METHODS BELOW
 
@@ -293,23 +382,72 @@ def dollars_to_cents(dollars):
 
     return int(cents)
 
+################################################
+###         MT Interaction functions        ####
+################################################
+
+
+def retrieve_user_usd_balance(email):
+
+    metadata_filters = {
+        'email': email,
+        'name': 'usd-balance'
+    }
+    
+    return modern_treasury.ledger_accounts.list(metadata=metadata_filters)
+
+def construct_deposit_ledger_transaction(bank, amount, email, metadata, description):
+
+    user_balance_la_id = retrieve_user_usd_balance(email).items[0].id
+
+    cash_account_id = cash_accounts[bank].id
+
+    metadata['user_visible_accounts'] = user_balance_la_id
+    metadata[user_balance_la_id] = "USD Balance"
+
+    ledger_entries = [
+        { 
+            "amount": int(amount),
+            "direction": "debit",
+            "ledger_account_id": cash_account_id
+        },
+        { 
+            "amount": int(amount),
+            "direction": "credit",
+            "ledger_account_id": user_balance_la_id
+        }
+    ]
+
+    ledger_transaction = {
+        'ledger_entries': ledger_entries,
+        'metadata': metadata
+    }
+    
+    if description:
+        ledger_transaction['description'] = description
+
+    return(ledger_transaction)
+
 def retrieve_user_ledger_info(email):
             
     metadata_filters = {
         'email': email
     }
 
-    print(metadata_filters | { "name": "usd-balance"})
     user_usd_balance = modern_treasury.ledger_accounts.list(metadata=metadata_filters | { "name": "usd-balance"})
+    user_btc_balance = modern_treasury.ledger_accounts.list(metadata=metadata_filters | { "name": "btc-balance"})
+    user_eth_balance = modern_treasury.ledger_accounts.list(metadata=metadata_filters | { "name": "eth-balance"})
+
     user_ledger_accounts = modern_treasury.ledger_accounts.list(metadata=metadata_filters)
     user_ledger_account_categories = modern_treasury.ledger_account_categories.list(metadata=metadata_filters)
 
     return({ 
         "user_usd_balance": user_usd_balance,
+        "user_btc_balance":user_btc_balance,
+        "user_eth_balance": user_eth_balance,
         "user_ledger_accounts": user_ledger_accounts,
         "user_ledger_account_categories": user_ledger_account_categories,
         })
-
 
 if __name__ == "__main__":
     app.run()

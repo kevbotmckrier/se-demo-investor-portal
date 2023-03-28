@@ -1,0 +1,49 @@
+{% extends "base.jinja" %}
+{% block title %}Investor Dashboard{% endblock %}
+{% block content %}
+
+    <div class="row text-left">
+        <h2>Welcome {{ session['human_name'] }}!</h2>
+        <p>This page lists all previous transations with {{ company_name }}.</p>
+    </div>
+    <div class="row">
+        <div class="col-4">
+            <strong>Description</strong>
+        </div>
+        <div class="col-sm">
+            <strong>Created at</strong>
+        </div>
+        <div class="col-sm">
+            <strong>Amount</strong>
+        </div>
+        <div class="col-sm">
+            <strong>Applied to</strong>
+        </div>
+        <div class="col-sm">
+            <strong>Current Status</strong>
+        </div>
+    </div>
+    {% for transaction in ledger_transactions %}
+        <div class="row">
+            <div class="col-4">
+                {{ transaction.description }}
+            </div>
+                {% for entry in transaction.ledger_entries %}
+                    {% if entry.ledger_account_id in transaction.metadata.user_visible_accounts %}
+                        <div class="col-sm">
+                            {{ entry.created_at }}
+                        </div>
+                        <div class="col-sm">
+                            {{ entry.amount }} {{ entry.ledger_account_currency }}
+                        </div>
+                        <div class="col-sm">
+                            {{transaction.metadata[entry.ledger_account_id] }}
+                        </div>
+                        <div class="col-sm">
+                            {{transaction.status}}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+        </div>
+    {% endfor %}
+{% endblock %}
