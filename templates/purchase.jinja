@@ -1,0 +1,64 @@
+{% extends "base.jinja" %}
+{% block title %}Investor Dashboard{% endblock %}
+{% block content %}
+
+    <script src="{{url_for('static', filename='purchase.js')}}"></script>
+    <div class="row text-left">
+        <h2>Welcome {{ session['human_name'] }}!</h2>
+        <p>This is where you can purchase various {{ items_for_sale_collective_noun }}.</p>
+    </div>
+    <div class="row">
+        <div class="col-sm">
+            <strong>Name</strong>
+        </div>
+        <div class="col-sm">
+            <strong>Description</strong>
+        </div>
+        <div class="col-sm">
+            <strong>Symbol</strong>
+        </div>
+        <div class="col-sm">
+            <strong>Current Price</strong>
+        </div>
+        <div class="col-sm">
+            <strong>Number owned</strong>
+        </div>
+        <div class="col-md-3">
+            <strong>Purchase</strong>
+        </div>
+    </div>
+    {% for item in items_available_for_purchase %}
+        <div class="row text-left">
+            <div class="col-sm text-left">
+                {{ item.name }}
+            </div>
+            <div class="col-sm text-left">
+                {{ item.currency }}
+            </div>
+            <div class="col-sm text-left">
+                {{ item.description }}
+            </div>
+            <div class="col-sm text-left">
+                {{ item.current_price_in_usd_dollars_formatted }}
+            </div>
+            <div class="col-sm text-left">
+                {{ user_ledger_accounts['user_' + item.currency|lower + '_balance'].items[0].balances.available_balance.amount }}
+            </div>
+            <div class="col-md-3 text-left">
+                <form onsubmit="initiatePurchase()">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm">
+                                <input type="number" name="{{item.currency|lower}}-amount" class="form-control" id="amount-{{ item.currency|lower}}" placeholder="Buy x {{ item.name }}s">
+                            </div>
+                            <div class="col-sm">
+                                <button class="btn btn-primary">Submit</button>
+                            </div>                    
+                        </div> 
+                    </div>
+                </form>
+            </div>
+        </div>
+    {% endfor %}
+
+{% endblock content %}
