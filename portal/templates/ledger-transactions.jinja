@@ -34,7 +34,7 @@
                             {{ entry.created_at }}
                         </div>
                         <div class="col-sm">
-                            {{ entry.amount }} {{ entry.ledger_account_currency }}
+                            {{ "%.2f"|format(entry.amount / 10**entry.ledger_account_currency_exponent) }} {{ entry.ledger_account_currency }}
                         </div>
                         <div class="col-sm">
                             {{transaction.metadata[entry.ledger_account_id] }}

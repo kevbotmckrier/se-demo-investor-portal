@@ -1,0 +1,221 @@
+{
+    "COMPANY_NAME": "Modern Treasury Capital",
+    "COMPANY_NAME_SHORT": "MTC",
+    "COMPANY_LOGO": "/static/altimeter-logo.png",
+    "COUNTERPARTY_ID": "574f75ea-5e22-430a-ab25-3bf7fa319e4a",
+    "DISTRIBUTIONS_START_DATE": "2023-03-24",
+    "DISTRIBUTIONS_END_DATE": "2023-04-01",
+    "PAYINS_START_DATE": "2023-02-27",
+    "DEFAULT_ENTRY_POINT": "signup",
+    "DEFAULT_DASHBOARD_PATH": "/ledger-dashboard",
+    "CUSTOMER_NOUN": "Turkeys",
+    "PRODUCT_ATTRIBUTES": {
+        "nouns": "balances and investments"
+    },
+    "ITEMS_FOR_SALE_COLLECTIVE_NOUN": "cryptocurrencies",
+    "ORIGINATING_ACCOUNT_ID": "c59851c8-614f-4a6c-9c8c-6394f172d859",
+    "PAGES_AVAILABLE": [
+        {
+            "name": "dashboard",
+            "route": "/dashboard",
+            "description": "Dashboard"
+        },
+        {
+            "name": "ledger-dashboard",
+            "route": "/ledger-dashboard",
+            "description": "Ledger Dashboard"
+        },
+        {
+            "name": "payments",
+            "route": "/payments",
+            "description": "Capital Calls"
+        },
+        {
+            "name": "distributions",
+            "route": "/distributions",
+            "description": "Distributions"
+        },
+        {
+            "name": "new_bank_deposit",
+            "route": "/bank-deposit",
+            "description": "Deposit from Bank Account"
+        },
+        {
+            "name": "view_ledger_transactions",
+            "route": "/ledger-transactions",
+            "description": "Tranasction History"
+        },
+        {
+            "name": "purchase",
+            "route": "/purchase",
+            "description": "Buy Crypto"
+        }
+    ],
+    "USER_ATTRIBUTES": [
+        {
+            "var_name": "email",
+            "long": "Email Address",
+            "short": "Email",
+            "unique": "Yes",
+            "placeholder": "name@example.com",
+            "add_to_metadata": true
+        },
+        {
+            "var_name": "human_name",
+            "long": "Your Name",
+            "short": "Name",
+            "unique": "Yes",
+            "add_to_metadata": false
+        },
+        {
+            "var_name": "state",
+            "long": "State",
+            "short": "State",
+            "unique": "No",
+            "add_to_metadata": true
+        }
+    ],
+    "USER_LEDGER_ACCOUNTS": [
+        {
+            "name": "USD Balance",
+            "currency": "USD",
+            "normal_balance": "credit",
+            "metadata": {
+                "type": "user-balance",
+                "currency_type": "fiat",
+                "name": "usd-balance",
+                "user-visible": "true"
+            },
+            "categories": [
+                "all-usd-accounts"
+            ]
+        },
+        {
+            "name": "USD Margin",
+            "currency": "USD",
+            "normal_balance": "credit",
+            "metadata": {
+                "type": "user-balance",
+                "currency_type": "fiat",
+                "name": "usd-margin",
+                "user-visible": "true"
+            },
+            "categories": [
+                "all-usd-accounts"
+            ]
+        },
+        {
+            "name": "BTC Balance",
+            "currency": "BTC",
+            "normal_balance": "credit",
+            "metadata": {
+                "type": "user-balance",
+                "currency_type": "fiat",
+                "name": "btc-balance",
+                "user-visible": "true"
+            },
+            "categories": [
+                "all-usd-accounts"
+            ]
+        },
+        {
+            "name": "BTC Margin",
+            "currency": "BTC",
+            "normal_balance": "credit",
+            "metadata": {
+                "type": "user-balance",
+                "currency_type": "fiat",
+                "name": "btc-margin",
+                "user-visible": "true"
+            },
+            "categories": [
+                "all-usd-accounts"
+            ]
+        },
+        {
+            "name": "ETH Balance",
+            "currency": "ETH",
+            "currency_exponent": 2,
+            "normal_balance": "credit",
+            "metadata": {
+                "type": "user-balance",
+                "currency_type": "fiat",
+                "name": "eth-balance",
+                "user-visible": "true"
+            },
+            "categories": [
+                "all-usd-accounts"
+            ]
+        },
+        {
+            "name": "ETH Margin",
+            "currency": "ETH",
+            "currency_exponent": 2,
+            "normal_balance": "credit",
+            "metadata": {
+                "type": "user-balance",
+                "currency_type": "fiat",
+                "name": "eth-margin",
+                "user-visible": "true"
+            },
+            "categories": [
+                "all-usd-accounts"
+            ]
+        }
+    ],
+    "USER_ACCOUNT_CATEGORIES": [
+        {
+            "name": "all-usd-accounts",
+            "currency": "USD",
+            "normal_balance": "credit",
+            "metadata": {
+                "type": "user-balance",
+                "aggregate-type": "currency-parent",
+                "currency_type": "fiat",
+                "user-visible": "true"
+            }
+        }
+    ],
+    "GLOBAL_ACCOUNT_CATEGORIES": [
+
+    ],
+    "CUSTOMER_CASH_ACCOUNTS": [
+        {
+            "vendor": "modern-treasury",
+            "internal_account_id": "ae2cbfd9-a960-41bd-bbce-471bc3e50e72",
+            "external_account_id": null,
+            "currency": "USD",
+            "bank": "jpm"
+        },
+        {
+            "vendor": "modern-treasury",
+            "internal_account_id": "ae2cbfd9-a960-41bd-bbce-471bc3e50e72",
+            "external_account_id": null,
+            "currency": "USD",
+            "bank": "goldman"
+        },
+        {
+            "vendor": "treasury-prime",
+            "internal_account_id": "ae2cbfd9-a960-41bd-bbce-471bc3e50e72",
+            "external_account_id": null,
+            "currency": "USD",
+            "bank": "signature"
+        }
+    ],
+    "ITEMS_AVAILABLE_FOR_PURCHASE": [
+        {
+            "name": "Bitcoin",
+            "currency": "BTC",
+            "description": "The OG",
+            "price_in_usd": 2721600,
+            "variation_percent": 10
+        },
+        {
+            "name": "Ethereum",
+            "currency": "ETH",
+            "description": "The up and comer",
+            "price_in_usd": 177011,
+            "variation_percent": 10
+        }
+    ]
+}

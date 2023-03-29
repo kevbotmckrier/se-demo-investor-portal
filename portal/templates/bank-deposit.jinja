@@ -2,7 +2,7 @@
 {% block title %}{{ customer_noun }} - New Deposit{% endblock %}
 {% block content %}
 
-<form action="{{ url_for('create_bank_deposit') }}" method="post">
+<form action="{{ url_for('ledger_dashboard.create_bank_deposit') }}" method="post">
     <div class="row">
       <div class="form-group col">
         <label>Payment Method</label>

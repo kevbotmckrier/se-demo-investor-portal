@@ -1,8 +1,40 @@
 {% extends "base.jinja" %}
 {% block title %}Investor Dashboard{% endblock %}
 {% block content %}
+<script type="text/javascript">
+    function initiatePurchase(event) {
+        
+        event.preventDefault();
+        
+        const purchaseItem = event.target.id;
+        const amount = document.getElementById(purchaseItem + '-amount').value;
 
-    <script src="{{url_for('static', filename='purchase.js')}}"></script>
+        if(!amount) {
+            alert("Please enter a valid value.")
+        } else {
+
+            let purchaseData = new FormData();
+
+            purchaseData.append("item",purchaseItem);
+            purchaseData.append("amount",amount);
+
+            alert("Initiatng purchase!")
+
+            fetch('/make-purchase', {
+                "method": "POST",
+                "body": purchaseData
+            }).then((response) => {
+
+                console.log(response);
+                return false;
+
+            })
+            .catch(error => alert(error.message));
+
+        }
+    };
+</script>
+
     <div class="row text-left">
         <h2>Welcome {{ session['human_name'] }}!</h2>
         <p>This is where you can purchase various {{ items_for_sale_collective_noun }}.</p>
@@ -45,11 +77,11 @@
                 {{ user_ledger_accounts['user_' + item.currency|lower + '_balance'].items[0].balances.available_balance.amount }}
             </div>
             <div class="col-md-3 text-left">
-                <form onsubmit="initiatePurchase()">
+                <form onsubmit="initiatePurchase(event)" id="{{item.currency|lower}}">
                     <div class="form-group">
                         <div class="row">
                             <div class="col-sm">
-                                <input type="number" name="{{item.currency|lower}}-amount" class="form-control" id="amount-{{ item.currency|lower}}" placeholder="Buy x {{ item.name }}s">
+                                <input type="number" name="{{item.currency|lower}}-amount" class="form-control" id="{{ item.currency|lower}}-amount" placeholder="Buy x {{ item.name }}s">
                             </div>
                             <div class="col-sm">
                                 <button class="btn btn-primary">Submit</button>
@@ -58,7 +90,8 @@
                     </div>
                 </form>
             </div>
-        </div>
+            
+            </div>
+                
     {% endfor %}
-
 {% endblock content %}
