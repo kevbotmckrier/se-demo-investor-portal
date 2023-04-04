@@ -21,28 +21,24 @@ def load_ledgers(f):
                 'email': session['email']
             }
 
-            # g.user_usd_balance =  modern_treasury.ledger_accounts.list(
-            #     metadata=metadata_filters | { "name": "usd-balance"},
-            #     ledger_id=current_app.config['ledger'].id,
-            #     )
-
             g.user_usd_balance =  modern_treasury.ledger_accounts.list(
-                metadata={ "user_id":"58926379"},
+                metadata=metadata_filters | { "name": "usd-balance"},
+                ledger_id=current_app.config['ledger'].id,
+                )
+
+            ####TODO - redo user balance model to use categories at the top leel for USD so you can display different subsets            
+            # g.user_usd__category_balance =  modern_treasury.ledger_account_categories.list(
+            #     metadata={ "user_id":"58926379"},
+            #     ledger_id=current_app.config['ledger'].id,
+            # )
+            
+            g.user_stk_balance =  modern_treasury.ledger_accounts.list(
+                metadata=metadata_filters | { "name": "stk-balance"},
                 ledger_id=current_app.config['ledger'].id,
             )
             
-            g.user_usd__category_balance =  modern_treasury.ledger_account_categories.list(
-                metadata={ "user_id":"58926379"},
-                ledger_id=current_app.config['ledger'].id,
-            )
-            
-            g.user_btc_balance =  modern_treasury.ledger_accounts.list(
-                metadata=metadata_filters | { "name": "btc-balance"},
-                ledger_id=current_app.config['ledger'].id,
-            )
-            
-            g.user_eth_balance =  modern_treasury.ledger_accounts.list(
-                metadata=metadata_filters | { "name": "eth-balance"},
+            g.user_bnd_balance =  modern_treasury.ledger_accounts.list(
+                metadata=metadata_filters | { "name": "bnd-balance"},
                 ledger_id=current_app.config['ledger'].id,
             )
 
@@ -124,10 +120,9 @@ def load_ledger_transactions(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if 'email' in session:
-            # metadata_filters = {
-            #     'user': session['email']
-            # }
-            metadata_filters = { "User_Id":"58926379"}
+            metadata_filters = {
+                'user': session['email']
+            }
 
             g.ledger_transactions =  modern_treasury.ledger_transactions.list(
                 ledger_id=current_app.config['ledger'].id,

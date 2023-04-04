@@ -1,7 +1,7 @@
 {
-    "COMPANY_NAME": "Binance.us",
-    "COMPANY_NAME_SHORT": "Binance",
-    "COMPANY_LOGO": "/static/small-icon.png",
+    "COMPANY_NAME": "Ledgers Example",
+    "COMPANY_NAME_SHORT": "Ledger.ly",
+    "COMPANY_LOGO": "/static/altimeter-logo.png",
     "COUNTERPARTY_ID": "574f75ea-5e22-430a-ab25-3bf7fa319e4a",
     "DISTRIBUTIONS_START_DATE": "2023-03-24",
     "DISTRIBUTIONS_END_DATE": "2023-04-01",
@@ -12,13 +12,28 @@
     "PRODUCT_ATTRIBUTES": {
         "nouns": "balances and investments"
     },
-    "ITEMS_FOR_SALE_COLLECTIVE_NOUN": "cryptocurrencies",
+    "ITEMS_FOR_SALE_COLLECTIVE_NOUN": "investments",
     "ORIGINATING_ACCOUNT_ID": "c59851c8-614f-4a6c-9c8c-6394f172d859",
     "PAGES_AVAILABLE": [
+        {
+            "name": "dashboard",
+            "route": "/dashboard",
+            "description": "Dashboard"
+        },
         {
             "name": "ledger-dashboard",
             "route": "/ledger-dashboard",
             "description": "Ledger Dashboard"
+        },
+        {
+            "name": "payments",
+            "route": "/payments",
+            "description": "Capital Calls"
+        },
+        {
+            "name": "distributions",
+            "route": "/distributions",
+            "description": "Distributions"
         },
         {
             "name": "new_bank_deposit",
@@ -33,7 +48,7 @@
         {
             "name": "purchase",
             "route": "/purchase",
-            "description": "Buy Crypto"
+            "description": "Buy Investments"
         }
     ],
     "USER_ATTRIBUTES": [
@@ -90,42 +105,14 @@
             ]
         },
         {
-            "name": "BTC Balance",
-            "currency": "BTC",
-            "normal_balance": "credit",
-            "metadata": {
-                "type": "user-balance",
-                "currency_type": "fiat",
-                "name": "btc-balance",
-                "user-visible": "true"
-            },
-            "categories": [
-                "all-usd-accounts"
-            ]
-        },
-        {
-            "name": "BTC Margin",
-            "currency": "BTC",
-            "normal_balance": "credit",
-            "metadata": {
-                "type": "user-balance",
-                "currency_type": "fiat",
-                "name": "btc-margin",
-                "user-visible": "true"
-            },
-            "categories": [
-                "all-usd-accounts"
-            ]
-        },
-        {
-            "name": "ETH Balance",
-            "currency": "ETH",
+            "name": "STK Balance",
+            "currency": "STK",
             "currency_exponent": 2,
             "normal_balance": "credit",
             "metadata": {
                 "type": "user-balance",
                 "currency_type": "fiat",
-                "name": "eth-balance",
+                "name": "stk-balance",
                 "user-visible": "true"
             },
             "categories": [
@@ -133,14 +120,42 @@
             ]
         },
         {
-            "name": "ETH Margin",
-            "currency": "ETH",
+            "name": "STK Margin",
+            "currency": "STK",
             "currency_exponent": 2,
             "normal_balance": "credit",
             "metadata": {
                 "type": "user-balance",
                 "currency_type": "fiat",
-                "name": "eth-margin",
+                "name": "stk-margin",
+                "user-visible": "true"
+            },
+            "categories": [
+                "all-usd-accounts"
+            ]
+        },
+        {
+            "name": "BND Balance",
+            "currency": "BND",
+            "normal_balance": "credit",
+            "metadata": {
+                "type": "user-balance",
+                "currency_type": "fiat",
+                "name": "bnd-balance",
+                "user-visible": "true"
+            },
+            "categories": [
+                "all-usd-accounts"
+            ]
+        },
+        {
+            "name": "BND Margin",
+            "currency": "BND",
+            "normal_balance": "credit",
+            "metadata": {
+                "type": "user-balance",
+                "currency_type": "fiat",
+                "name": "bnd-margin",
                 "user-visible": "true"
             },
             "categories": [
@@ -196,35 +211,35 @@
             }
         },
         {
-            "currency": "BTC",
-            "name": "BTC Net Purchases",
+            "currency": "STK",
+            "name": "STK Net Purchases",
+            "currency_exponent": "2",
             "metadata": {
-                "name": "btc-net-purchases"
+                "name": "stk-net-purchases"
             }
         },
         {
-            "currency": "ETH",
-            "name": "ETH Net Purchases",
-            "currency_exponent": "2",
+            "currency": "BND",
+            "name": "BND Net Purchases",
             "metadata": {
-                "name": "eth-net-purchases"
+                "name": "bnd-net-purchases"
             }
         }
     ],
     "ITEMS_AVAILABLE_FOR_PURCHASE": [
         {
-            "name": "Bitcoin",
-            "currency": "BTC",
-            "description": "The OG",
-            "price_in_usd": 2721600,
-            "variation_percent": 10
+            "name": "Stocks",
+            "currency": "STK",
+            "description": "Equity investments.",
+            "price_in_usd": 1000,
+            "variation_percent": 15
         },
         {
-            "name": "Ethereum",
-            "currency": "ETH",
-            "description": "The up and comer",
-            "price_in_usd": 177011,
-            "variation_percent": 10
+            "name": "Bonds",
+            "currency": "BND",
+            "description": "Fixed income investments.",
+            "price_in_usd": 500,
+            "variation_percent": 2
         }
     ]
 }

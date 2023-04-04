@@ -20,9 +20,10 @@ modern_treasury = ModernTreasury(
 def create_accounts_and_load_dash():
             
         return render_template('ledger-dashboard.jinja',
-            ledger_account_categories=g.user_ledger_account_categories.items,
+            ##TODO related to shift to user category based balance tracking
+            # ledger_account_categories=g.user_ledger_account_categories.items,
             ledger_accounts=g.user_ledger_accounts.items,
-            usd_balance=g.user_usd__category_balance.items[0],
+            usd_balance=g.user_usd_balance.items[0],
             )
 
 @bp.route('/ledger-dashboard', methods=['GET'])
@@ -33,7 +34,7 @@ def load_dash():
         return render_template('ledger-dashboard.jinja', 
             ledger_account_categories=g.user_ledger_account_categories.items,
             ledger_accounts=g.user_ledger_accounts.items,
-            usd_balance=g.user_usd__category_balance.items[0],
+            usd_balance=g.user_usd_balance.items[0],
             )
 
 @bp.route('/bank-deposit')
@@ -69,8 +70,7 @@ def create_bank_deposit():
             amount=(int(request.form['amount'])*100),
             email=session['email'],
             description=f"Deposit from bank account via {request.form['payment-method']} on " + date.today().strftime('%x'),
-            # metadata={'user': session['email']}
-            metadata={'User_Id': '58926379'}
+            metadata={'user': session['email']}
             )
     )
 
@@ -101,8 +101,8 @@ def purchase_investments():
         items_available_for_purchase=items_available_for_purchase, 
         user_ledger_accounts= {
             'user_usd_balance': g.user_usd_balance,
-            'user_btc_balance': g.user_btc_balance,
-            'user_eth_balance': g.user_eth_balance,
+            'user_stk_balance': g.user_stk_balance,
+            'user_bnd_balance': g.user_bnd_balance,
         })
 
 @bp.post('/make-purchase')
@@ -166,16 +166,16 @@ def construct_purchase_ledger_transaction(item, price, amount, description):
     user_balance_ids = dict()
 
     user_balance_ids['usd'] = g.user_usd_balance.items[0].id
-    user_balance_ids['btc'] = g.user_btc_balance.items[0].id
-    user_balance_ids['eth'] = g.user_eth_balance.items[0].id
+    user_balance_ids['stk'] = g.user_stk_balance.items[0].id
+    user_balance_ids['bnd'] = g.user_bnd_balance.items[0].id
 
     other_account_ids = dict()
 
     price = int(float(price) // 1)
 
     other_account_ids['usd'] = current_app.config['other_accounts']['USD Net Purchases'].id
-    other_account_ids['btc'] = current_app.config['other_accounts']['BTC Net Purchases'].id
-    other_account_ids['eth'] = current_app.config['other_accounts']['ETH Net Purchases'].id
+    other_account_ids['stk'] = current_app.config['other_accounts']['STK Net Purchases'].id
+    other_account_ids['bnd'] = current_app.config['other_accounts']['BND Net Purchases'].id
 
     metadata = dict()
     metadata['user_visible_accounts'] = ''
