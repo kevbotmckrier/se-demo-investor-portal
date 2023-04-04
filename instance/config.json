@@ -1,14 +1,14 @@
 {
-    "COMPANY_NAME": "Modern Treasury Capital",
-    "COMPANY_NAME_SHORT": "MTC",
-    "COMPANY_LOGO": "/static/altimeter-logo.png",
+    "COMPANY_NAME": "Binance.us",
+    "COMPANY_NAME_SHORT": "Binance",
+    "COMPANY_LOGO": "/static/small-icon.png",
     "COUNTERPARTY_ID": "574f75ea-5e22-430a-ab25-3bf7fa319e4a",
     "DISTRIBUTIONS_START_DATE": "2023-03-24",
     "DISTRIBUTIONS_END_DATE": "2023-04-01",
     "PAYINS_START_DATE": "2023-02-27",
     "DEFAULT_ENTRY_POINT": "signup",
     "DEFAULT_DASHBOARD_PATH": "/ledger-dashboard",
-    "CUSTOMER_NOUN": "Turkeys",
+    "CUSTOMER_NOUN": "Investors",
     "PRODUCT_ATTRIBUTES": {
         "nouns": "balances and investments"
     },
@@ -16,24 +16,9 @@
     "ORIGINATING_ACCOUNT_ID": "c59851c8-614f-4a6c-9c8c-6394f172d859",
     "PAGES_AVAILABLE": [
         {
-            "name": "dashboard",
-            "route": "/dashboard",
-            "description": "Dashboard"
-        },
-        {
             "name": "ledger-dashboard",
             "route": "/ledger-dashboard",
             "description": "Ledger Dashboard"
-        },
-        {
-            "name": "payments",
-            "route": "/payments",
-            "description": "Capital Calls"
-        },
-        {
-            "name": "distributions",
-            "route": "/distributions",
-            "description": "Distributions"
         },
         {
             "name": "new_bank_deposit",
@@ -185,21 +170,45 @@
             "internal_account_id": "ae2cbfd9-a960-41bd-bbce-471bc3e50e72",
             "external_account_id": null,
             "currency": "USD",
-            "bank": "jpm"
+            "bank": "SB1"
         },
         {
             "vendor": "modern-treasury",
             "internal_account_id": "ae2cbfd9-a960-41bd-bbce-471bc3e50e72",
             "external_account_id": null,
             "currency": "USD",
-            "bank": "goldman"
+            "bank": "SB2"
         },
         {
-            "vendor": "treasury-prime",
+            "vendor": "modern-treasury",
             "internal_account_id": "ae2cbfd9-a960-41bd-bbce-471bc3e50e72",
             "external_account_id": null,
             "currency": "USD",
-            "bank": "signature"
+            "bank": "SB3"
+        }
+    ],
+    "CUSTOMER_OTHER_ACCOUNTS": [
+        {
+            "currency": "USD",
+            "name": "USD Net Purchases",
+            "metadata": {
+                "name": "usd-net-purchases"
+            }
+        },
+        {
+            "currency": "BTC",
+            "name": "BTC Net Purchases",
+            "metadata": {
+                "name": "btc-net-purchases"
+            }
+        },
+        {
+            "currency": "ETH",
+            "name": "ETH Net Purchases",
+            "currency_exponent": "2",
+            "metadata": {
+                "name": "eth-net-purchases"
+            }
         }
     ],
     "ITEMS_AVAILABLE_FOR_PURCHASE": [

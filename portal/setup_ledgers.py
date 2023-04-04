@@ -50,6 +50,29 @@ def create_cash_accounts():
         raise Exception("Partial creation. Recommend delete and recreate.")
     else:
         raise Exception("Unable to create cash accounts.")
+    
+def create_other_accounts():
+    other_accounts = dict()
+
+    for other_account in current_app.config['CUSTOMER_OTHER_ACCOUNTS']:
+        other_accounts[other_account['name']] = modern_treasury.ledger_accounts.create(
+            currency=other_account['currency'],
+            ledger_id=current_app.config['ledger'].id,
+            name=other_account['name'],
+            normal_balance='debit',
+            metadata=other_account['metadata'],
+            currency_exponent= other_account['currency_exponent'] if 'currency_exponent' in other_account else None
+        )
+    
+    if len(other_accounts) == len(current_app.config['CUSTOMER_OTHER_ACCOUNTS']):
+        current_app.config['other_accounts'] = other_accounts
+        print('Other ledger accounts created.')
+        return True
+
+    elif len(other_accounts) > 0:
+        raise Exception("Partial creation. Recommend delete and recreate.")
+    else:
+        raise Exception("Unable to create other accounts.")
 
 def get_ledger():
 
@@ -67,16 +90,13 @@ def get_cash_accounts():
     cash_accounts = dict()
 
     for cash_account in current_app.config['CUSTOMER_CASH_ACCOUNTS']:
-        cash_accounts[cash_account['bank']] = modern_treasury.ledger_accounts.create(
-            currency=cash_account['currency'],
+        cash_accounts[cash_account['bank']] = modern_treasury.ledger_accounts.list(
             ledger_id=current_app.config['ledger'].id,
-            name=cash_account['vendor'] + ' - ' + cash_account['bank'],
-            normal_balance='debit',
             metadata= {
                 'type': 'cash-account',
                 'bank': cash_account['bank']
                 }
-        )
+        ).items[0]
 
     if len(cash_accounts) == len(current_app.config['CUSTOMER_CASH_ACCOUNTS']):
         current_app.config['cash_accounts'] = cash_accounts
@@ -87,6 +107,26 @@ def get_cash_accounts():
     else:
         raise Exception("Unable to find any cash accounts. Recommend deleting Ledger and recreating.")
     
+def get_other_accounts():
+
+    other_accounts = dict()
+
+    for other_account in current_app.config['CUSTOMER_OTHER_ACCOUNTS']:
+        other_accounts[other_account['name']] = modern_treasury.ledger_accounts.list(
+            ledger_id=current_app.config['ledger'].id,
+            metadata= {
+                'name': other_account['metadata']['name']
+                }
+        ).items[0]
+
+    if len(other_accounts) == len(current_app.config['CUSTOMER_OTHER_ACCOUNTS']):
+        current_app.config['other_accounts'] = other_accounts
+        print('Existing other accounts found.')
+        return True
+    elif len(other_accounts) > 0:
+        raise Exception("Partial creation. Recommend deleting Ledger and recreating.")
+    else:
+        raise Exception("Unable to find any Other accounts. Recommend deleting Ledger and recreating.")
 
 def delete_ledgers():
 

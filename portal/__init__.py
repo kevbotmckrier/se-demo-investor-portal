@@ -19,7 +19,7 @@ def create_app():
 
     ## Setup ledgers
     with app.app_context():
-        from .setup_ledgers import create_ledger, get_ledger, create_cash_accounts, get_cash_accounts, init_app
+        from .setup_ledgers import create_ledger, get_ledger, create_cash_accounts, get_cash_accounts, init_app, get_other_accounts, create_other_accounts
         init_app(app)
 
         try:
@@ -29,16 +29,16 @@ def create_app():
             try:
                 create_ledger()
                 create_cash_accounts()
+                create_other_accounts()
             except Exception as e:
                 print(e)
                 print("Setup failure.")
-                exit()
         try:
             get_cash_accounts()
+            get_other_accounts()
         except Exception as e:
             print(e)
             print("Setup failure.")
-            exit()
 
     app.secret_key =  app.config['ledger'].id
 

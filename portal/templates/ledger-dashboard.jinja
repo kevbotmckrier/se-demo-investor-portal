@@ -10,15 +10,15 @@
 <div class="row text-center mb-3">
     <div class="col-md-4">
         <h4 class="bg-primary p-2 display-8 rounded text-white"><strong>USD - Pending Balance</strong></h4>
-        <h3 class="bg-primary p-2 display-8 rounded text-white">${{ usd_balance.balances.pending_balance.amount }}</h3>
+        <h3 class="bg-primary p-2 display-8 rounded text-white">${{ usd_balance.balances.pending_balance.amount/100 }}</h3>
     </div>
     <div class="col-md-4">
         <h4 class="bg-primary p-2 display-8 rounded text-white"><strong>USD - Posted Balance</strong></h4>
-        <h3 class="bg-primary p-2 display-8 rounded text-white">${{ usd_balance.balances.posted_balance.amount }}</h3>
+        <h3 class="bg-primary p-2 display-8 rounded text-white">${{ usd_balance.balances.posted_balance.amount/100 }}</h3>
     </div>
     <div class="col-md-4">
         <h4 class="bg-primary p-2 display-8 rounded text-white"><strong>USD - Available Balance</strong></h4>
-        <h3 class="bg-primary p-2 display-8 rounded text-white">${{ usd_balance.balances.available_balance.amount }}</h3>
+        <h3 class="bg-primary p-2 display-8 rounded text-white">${{ usd_balance.balances.available_balance.amount/100 }}</h3>
     </div>
 </div>
 <div class="row text-left mb-3">
@@ -28,9 +28,9 @@
     <div class="col col-xs-4">
         <a class="btn btn-info" href="/bank-deposit">Bank Account</a>
     </div>
-    <div class="col col-xs-4">
+    {# <div class="col col-xs-4">
         <button class="btn btn-info">Credit Card</button>
-    </div>
+    </div> #}
 </div>
 <br>
 <hr>
@@ -38,11 +38,11 @@
 <div class="row">
     <div class="col-md-8">
         <h4>Portfolio Breakdown</h4>
-        <img src="/static/pie-chart.png" class="img-fluid" alt="{{ company_name }} Pie Chart">
+        <img src="/static/crypto-portfolio.png" class="img-fluid" alt="{{ company_name }} Pie Chart">
     </div>
     <div class="col-md-4">
         <h4>News Feed</h4>
-        <img src="/static/news-feed-short.png" class="img-fluid" alt="{{ company_name }} Returns Graph">
+        <img src="/static/crypto-news.png" class="img-fluid" alt="{{ company_name }} Returns Graph">
     </div>
 </div>
 {% endblock %}

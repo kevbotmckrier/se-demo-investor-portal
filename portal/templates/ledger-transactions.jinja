@@ -7,7 +7,7 @@
         <p>This page lists all previous transations with {{ company_name }}.</p>
     </div>
     <div class="row">
-        <div class="col-4">
+        <div class="col-sm">
             <strong>Description</strong>
         </div>
         <div class="col-sm">
@@ -19,30 +19,45 @@
         <div class="col-sm">
             <strong>Applied to</strong>
         </div>
+
         <div class="col-sm">
             <strong>Current Status</strong>
         </div>
+        <div class="col-sm">
+            <strong>Debit/Credit</strong>
+        </div>
+        <div class="col-4">
+            <strong>Metadata</strong>
+        </div>
     </div>
     {% for transaction in ledger_transactions %}
+    {% for entry in transaction.ledger_entries %}
         <div class="row">
-            <div class="col-4">
+            <div class="col-sm">
                 {{ transaction.description }}
             </div>
-                {% for entry in transaction.ledger_entries %}
-                    {% if entry.ledger_account_id in transaction.metadata.user_visible_accounts %}
+                
+                    {# {% if entry.ledger_account_id in transaction.metadata.user_visible_accounts %} #}
+    
                         <div class="col-sm">
                             {{ entry.created_at }}
                         </div>
                         <div class="col-sm">
                             {{ "%.2f"|format(entry.amount / 10**entry.ledger_account_currency_exponent) }} {{ entry.ledger_account_currency }}
                         </div>
-                        <div class="col-sm">
-                            {{transaction.metadata[entry.ledger_account_id] }}
+                        <div class="col-sm">                            
+                            {{ la_names[entry.ledger_account_id] }}
                         </div>
                         <div class="col-sm">
                             {{transaction.status}}
                         </div>
-                    {% endif %}
+                        <div class="col-sm">
+                            {{entry.direction}}
+                        </div>
+                        <div class="col-4">                            
+                            {{transaction.metadata|string|truncate(200) }}
+                        </div>
+                    {# {% endif %} #}
                 {% endfor %}
         </div>
     {% endfor %}
