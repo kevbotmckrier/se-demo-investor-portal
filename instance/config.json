@@ -36,6 +36,10 @@
             "description": "Buy Crypto"
         }
     ],
+    "CURRENCIES_ON_DASHBOARD": [
+        "USD",
+        "BTC"
+    ],
     "USER_ATTRIBUTES": [
         {
             "var_name": "email",
@@ -60,171 +64,141 @@
             "add_to_metadata": true
         }
     ],
-    "USER_LEDGER_ACCOUNTS": [
+    "USER_LEDGER_ACCOUNTS_GLOBAL": [
+    ],
+    "USER_LEDGER_ACCOUNTS_PER_CURRENCY": [
         {
-            "name": "USD Balance",
-            "currency": "USD",
+            "name": "General Balance",
             "normal_balance": "credit",
             "metadata": {
                 "type": "user-balance",
-                "currency_type": "fiat",
-                "name": "usd-balance",
-                "user-visible": "true"
+                "sub-type": "unrestricted"
             },
             "categories": [
-                "all-usd-accounts"
+                {
+                    "name": "Total Balance",
+                    "metadata": {
+                        "type": "user-balance",
+                        "sub-type": "total"
+                    }
+                }
             ]
         },
         {
-            "name": "USD Margin",
-            "currency": "USD",
+            "name": "Promo Balance",
             "normal_balance": "credit",
             "metadata": {
                 "type": "user-balance",
-                "currency_type": "fiat",
-                "name": "usd-margin",
-                "user-visible": "true"
+                "sub-type": "promotional"
             },
             "categories": [
-                "all-usd-accounts"
-            ]
-        },
-        {
-            "name": "BTC Balance",
-            "currency": "BTC",
-            "normal_balance": "credit",
-            "metadata": {
-                "type": "user-balance",
-                "currency_type": "fiat",
-                "name": "btc-balance",
-                "user-visible": "true"
-            },
-            "categories": [
-                "all-usd-accounts"
-            ]
-        },
-        {
-            "name": "BTC Margin",
-            "currency": "BTC",
-            "normal_balance": "credit",
-            "metadata": {
-                "type": "user-balance",
-                "currency_type": "fiat",
-                "name": "btc-margin",
-                "user-visible": "true"
-            },
-            "categories": [
-                "all-usd-accounts"
-            ]
-        },
-        {
-            "name": "ETH Balance",
-            "currency": "ETH",
-            "currency_exponent": 2,
-            "normal_balance": "credit",
-            "metadata": {
-                "type": "user-balance",
-                "currency_type": "fiat",
-                "name": "eth-balance",
-                "user-visible": "true"
-            },
-            "categories": [
-                "all-usd-accounts"
-            ]
-        },
-        {
-            "name": "ETH Margin",
-            "currency": "ETH",
-            "currency_exponent": 2,
-            "normal_balance": "credit",
-            "metadata": {
-                "type": "user-balance",
-                "currency_type": "fiat",
-                "name": "eth-margin",
-                "user-visible": "true"
-            },
-            "categories": [
-                "all-usd-accounts"
+                {
+                    "name": "Total Balance",
+                    "metadata": {
+                        "type": "user-balance",
+                        "sub-type": "total"
+                    }
+                }
             ]
         }
     ],
-    "USER_ACCOUNT_CATEGORIES": [
-        {
-            "name": "all-usd-accounts",
-            "currency": "USD",
-            "normal_balance": "credit",
-            "metadata": {
-                "type": "user-balance",
-                "aggregate-type": "currency-parent",
-                "currency_type": "fiat",
-                "user-visible": "true"
-            }
-        }
-    ],
-    "GLOBAL_ACCOUNT_CATEGORIES": [
+    "USER_ACCOUNT_CATEGORIES_GLOBAL": [
 
     ],
-    "CUSTOMER_CASH_ACCOUNTS": [
+    "USER_ACCOUNT_CATEGORIES_PER_CURRENCY": [
         {
-            "vendor": "modern-treasury",
-            "internal_account_id": "ae2cbfd9-a960-41bd-bbce-471bc3e50e72",
-            "external_account_id": null,
-            "currency": "USD",
-            "bank": "SB1"
-        },
-        {
-            "vendor": "modern-treasury",
-            "internal_account_id": "ae2cbfd9-a960-41bd-bbce-471bc3e50e72",
-            "external_account_id": null,
-            "currency": "USD",
-            "bank": "SB2"
-        },
-        {
-            "vendor": "modern-treasury",
-            "internal_account_id": "ae2cbfd9-a960-41bd-bbce-471bc3e50e72",
-            "external_account_id": null,
-            "currency": "USD",
-            "bank": "SB3"
-        }
-    ],
-    "CUSTOMER_OTHER_ACCOUNTS": [
-        {
-            "currency": "USD",
-            "name": "USD Net Purchases",
+            "name": "Total Balance",
+            "normal_balance": "credit",
             "metadata": {
-                "name": "usd-net-purchases"
-            }
-        },
-        {
-            "currency": "BTC",
-            "name": "BTC Net Purchases",
-            "metadata": {
-                "name": "btc-net-purchases"
-            }
-        },
-        {
-            "currency": "ETH",
-            "name": "ETH Net Purchases",
-            "currency_exponent": "2",
-            "metadata": {
-                "name": "eth-net-purchases"
+                "type": "user-balance",
+                "sub-type": "total"
             }
         }
     ],
-    "ITEMS_AVAILABLE_FOR_PURCHASE": [
+    "COMPANY_ACCOUNT_CATEGORIES_GLOBAL": [
+
+    ],
+    "COMPANY_MISC_ACCOUNTS_PER_CURRENCY": [
+        {
+            "name": "Net Purchases",
+            "normal_balance": "debit",
+            "metadata":{
+                "type": "settlement",
+                "subtype": "net-fx"
+            }
+        }
+
+    ],
+    "COMPANY_ACCOUNT_CATEGORIES_PER_CURRENCY": [
+        {
+            "name": "Total Balance",
+            "normal_balance": "debit",
+            "metadata": {
+                "type": "company-balance",
+                "sub-type": "currency-total"
+            }
+        }
+    ],  
+    "COMPANY_ACCOUNT_CATEGORIES_WITH_BANK_ACCOUNTS": [
+        {
+            "name": "Example Bank - FBO",
+            "vendor": "modern-treasury",
+            "internal_account_id": "6aa7cbcb-e89a-495b-b1f2-478adaf21885",
+            "external_account_id": null,
+            "create_internal_account": true,
+            "internal_account_name": "FBO",
+            "internal_account_party_name": "Monty Treehouse",
+            "currency": "USD",
+            "connection_id": "cccda1b8-2b29-4785-a4df-08514dcd37fa",
+            "bank": "Example Bank",
+            "account_category_metadata": {
+                "type": "company-balance",
+                "subtype": "bank-account"
+            }
+        }
+    ],
+    "COMPANY_MISC_ACCOUNTS_GLOBAL": [
+        {
+            "name": "Generic Customer",
+            "currency": "USD",
+            "custom": false,
+            "currency_exponent": null,
+            "metadata":{
+                "type": "customer-balance",
+                "subtype": "filler"
+            }
+        }
+    ],
+    "CURRENCIES": [
         {
             "name": "Bitcoin",
             "currency": "BTC",
+            "custom": false,
+            "currency_exponent": null,
             "description": "The OG",
             "price_in_usd": 2721600,
-            "variation_percent": 10
+            "variation_percent": 10,
+            "base_currency": false
         },
         {
             "name": "Ethereum",
             "currency": "ETH",
+            "custom": true,
+            "currency_exponent": 18,
             "description": "The up and comer",
             "price_in_usd": 177011,
-            "variation_percent": 10
+            "variation_percent": 10,
+            "base_currency": false
+        },
+        {
+            "name": "US Dollars",
+            "currency": "USD",
+            "custom": false,
+            "currency_exponent": null,
+            "description": "USA moneys",
+            "price_in_usd": 1,
+            "variation_percent": 10,
+            "base_currency": true
         }
     ]
 }

@@ -1,0 +1,4 @@
+include portal/*.py
+graft portal/staic
+graft portal/templates
+global-exclude *.pyc

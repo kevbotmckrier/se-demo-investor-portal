@@ -4,7 +4,7 @@ from os import environ
 from datetime import date
 import random
 from portal.auth import authed
-from portal.mt_interactions import load_ledgers, load_bank_accounts, create_ledger_accounts, load_ledger_transactions
+from portal.mt_interactions import load_user_ledger_accounts_and_categories, load_ledger_transactions, create_user_ledger_accounts_and_categories
 
 bp = Blueprint('ledger_dashboard', __name__)
 
@@ -15,37 +15,39 @@ modern_treasury = ModernTreasury(
 
 @bp.route('/ledger-dashboard', methods=['POST'])
 @authed
-@create_ledger_accounts
-@load_ledgers
+@create_user_ledger_accounts_and_categories
+# @load_user_ledger_info
 def create_accounts_and_load_dash():
             
         return render_template('ledger-dashboard.jinja',
             ledger_account_categories=g.user_ledger_account_categories.items,
             ledger_accounts=g.user_ledger_accounts.items,
-            usd_balance=g.user_usd__category_balance.items[0],
-            )
+            visible_currencies=current_app.config['CURRENCIES_ON_DASHBOARD']
+        )
 
 @bp.route('/ledger-dashboard', methods=['GET'])
 @authed
-@load_ledgers
+@load_user_ledger_accounts_and_categories
 def load_dash():
-            
+        
+        print(g.user_ledger_account_categories.items)
+
         return render_template('ledger-dashboard.jinja', 
             ledger_account_categories=g.user_ledger_account_categories.items,
             ledger_accounts=g.user_ledger_accounts.items,
-            usd_balance=g.user_usd__category_balance.items[0],
-            )
+            visible_currencies=current_app.config['CURRENCIES_ON_DASHBOARD']
+        )
 
 @bp.route('/bank-deposit')
 @authed
-@load_bank_accounts
+# @load_bank_accounts
 def bank_deposit_page():
 
     return render_template('bank-deposit.jinja', bank_accounts=g.bank_accounts)
 
 @bp.route('/new-bank-deposit', methods=['GET','POST'])
 @authed
-@load_ledgers
+@load_user_ledger_accounts_and_categories
 def create_bank_deposit():
 
     print(construct_deposit_ledger_transaction(
@@ -87,7 +89,7 @@ def view_ledger_transactions():
 
 @bp.route('/purchase', methods=['GET'])
 @authed
-@load_ledgers
+@load_user_ledger_accounts_and_categories
 def purchase_investments():
 
     items_available_for_purchase = current_app.config['ITEMS_AVAILABLE_FOR_PURCHASE']
@@ -106,7 +108,7 @@ def purchase_investments():
         })
 
 @bp.post('/make-purchase')
-@load_ledgers
+@load_user_ledger_accounts_and_categories
 def make_purchase():
     print(request.form)
     

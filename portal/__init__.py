@@ -1,10 +1,12 @@
 import os
 import json
 from dotenv import load_dotenv
-
+from datetime import date
+from flask.cli import AppGroup
 from flask import Flask
+import traceback
 
-def create_app():
+def create_app(config_filename='config.json'):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
     
@@ -13,38 +15,46 @@ def create_app():
         os.makedirs(app.instance_path)
     except OSError:
         pass
+    
 
-    app.config.from_file('config.json', load=json.load)
+    app.config.from_file(config_filename, load=json.load)
+    app.config['LEDGER_NAME'] = app.config['COMPANY_NAME'] + ' - ' + date.today().isoformat()
 
+    # Custom Commands
+    from portal import admin
+    app.register_blueprint(admin.bp)
 
-    ## Setup ledgers
-    with app.app_context():
-        from .setup_ledgers import create_ledger, get_ledger, create_cash_accounts, get_cash_accounts, init_app, get_other_accounts, create_other_accounts
-        init_app(app)
+    # Setup ledgers
+    from portal import mt_setup
+    if(app.debug == True):
 
-        try:
-            get_ledger()
-        except Exception as e:
-            print(e)
+        with app.app_context():
+            
             try:
-                create_ledger()
-                create_cash_accounts()
-                create_other_accounts()
-            except Exception as e:
-                print(e)
-                print("Setup failure.")
-        try:
-            get_cash_accounts()
-            get_other_accounts()
-        except Exception as e:
-            print(e)
-            print("Setup failure.")
+                mt_setup.get_ledger()
+                mt_setup.get_account_categories_with_bank_accounts()
+                mt_setup.get_account_categories_per_currency()
+                mt_setup.get_global_misc_accounts()
+                mt_setup.get_misc_accounts_per_currency()
+                
+                app.secret_key =  app.config['ledger'].id
+                    
+            except:
+                print('Unable to find necessary ledger components.')
+                print(traceback.format_exc())
+                exit()
 
-    app.secret_key =  app.config['ledger'].id
+            
 
-    from . import auth
-    from . import investment_firm
-    from . import ledger_dashboard
+
+        
+
+
+
+    # Import application blueprints
+    from portal import auth
+    from portal import investment_firm
+    from portal import ledger_dashboard
 
     app.register_blueprint(auth.bp)
     app.register_blueprint(investment_firm.bp)
@@ -61,7 +71,7 @@ def create_app():
             customer_noun = app.config['CUSTOMER_NOUN'],
             pages_available = app.config['PAGES_AVAILABLE'],
             items_available_for_sale_collective_noun = app.config['ITEMS_FOR_SALE_COLLECTIVE_NOUN'],
-            items_available_for_purchase = app.config['ITEMS_AVAILABLE_FOR_PURCHASE'],
+            items_available_for_purchase = app.config['CURRENCIES'],
             default_dashboard_path = app.config['DEFAULT_DASHBOARD_PATH']
         )
 

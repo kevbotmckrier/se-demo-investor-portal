@@ -1,0 +1,86 @@
+{
+                "name": "USD Balance",
+                "currency": "USD",
+                "normal_balance": "credit",
+                "metadata": {
+                    "type": "user-balance",
+                    "currency_type": "fiat",
+                    "name": "usd-balance",
+                    "user-visible": "true"
+                },
+                "categories": [
+                    "all-usd-accounts"
+                ]
+            },
+            {
+                "name": "USD Margin",
+                "currency": "USD",
+                "normal_balance": "credit",
+                "metadata": {
+                    "type": "user-balance",
+                    "currency_type": "fiat",
+                    "name": "usd-margin",
+                    "user-visible": "true"
+                },
+                "categories": [
+                    "all-usd-accounts"
+                ]
+            },
+            {
+                "name": "STK Balance",
+                "currency": "STK",
+                "currency_exponent": 2,
+                "normal_balance": "credit",
+                "metadata": {
+                    "type": "user-balance",
+                    "currency_type": "fiat",
+                    "name": "stk-balance",
+                    "user-visible": "true"
+                },
+                "categories": [
+                    "all-usd-accounts"
+                ]
+            },
+            {
+                "name": "STK Margin",
+                "currency": "STK",
+                "currency_exponent": 2,
+                "normal_balance": "credit",
+                "metadata": {
+                    "type": "user-balance",
+                    "currency_type": "fiat",
+                    "name": "stk-margin",
+                    "user-visible": "true"
+                },
+                "categories": [
+                    "all-usd-accounts"
+                ]
+            },
+            {
+                "name": "BND Balance",
+                "currency": "BND",
+                "normal_balance": "credit",
+                "metadata": {
+                    "type": "user-balance",
+                    "currency_type": "fiat",
+                    "name": "bnd-balance",
+                    "user-visible": "true"
+                },
+                "categories": [
+                    "all-usd-accounts"
+                ]
+            },
+            {
+                "name": "BND Margin",
+                "currency": "BND",
+                "normal_balance": "credit",
+                "metadata": {
+                    "type": "user-balance",
+                    "currency_type": "fiat",
+                    "name": "bnd-margin",
+                    "user-visible": "true"
+                },
+                "categories": [
+                    "all-usd-accounts"
+                ]
+            }

@@ -6,21 +6,19 @@
     <h2>Welcome {{ session['human_name'] }}!</h2>
     <p>This dashboard helps track your {{ product_attributes.nouns }} with {{ company_name }}.</p>
 </div>
-
-<div class="row text-center mb-3">
-    <div class="col-md-4">
-        <h4 class="bg-primary p-2 display-8 rounded text-white"><strong>USD - Pending Balance</strong></h4>
-        <h3 class="bg-primary p-2 display-8 rounded text-white">${{ usd_balance.balances.pending_balance.amount/100 }}</h3>
-    </div>
-    <div class="col-md-4">
-        <h4 class="bg-primary p-2 display-8 rounded text-white"><strong>USD - Posted Balance</strong></h4>
-        <h3 class="bg-primary p-2 display-8 rounded text-white">${{ usd_balance.balances.posted_balance.amount/100 }}</h3>
-    </div>
-    <div class="col-md-4">
-        <h4 class="bg-primary p-2 display-8 rounded text-white"><strong>USD - Available Balance</strong></h4>
-        <h3 class="bg-primary p-2 display-8 rounded text-white">${{ usd_balance.balances.available_balance.amount/100 }}</h3>
-    </div>
-</div>
+{% for lc in ledger_account_categories %}
+    {% if lc.balances.pending_balance.currency in visible_currencies %}
+        <div class="row text-center mb-3">
+        {% for balance in lc.balances %}
+            <div class="col-md-4">
+                <h4 class="bg-primary p-2 display-8 rounded text-white"><strong>{{ balance[1].currency}} - {{ balance[0].split('_')|map('capitalize')|join(' ') }}</strong></h4>
+                {# <h4 class="bg-primary p-2 display-8 rounded text-white"><strong>{{balance}}</strong></h4> #}
+                <h3 class="bg-primary p-2 display-8 rounded text-white">{{ ('{:,.' +  balance[1].currency_exponent|string + 'f}'|string).format(balance[1].amount) }} </h3>
+            </div>
+        {% endfor %}
+        </div>
+    {% endif %}
+{% endfor %}
 <div class="row text-left mb-3">
     <div class="col display-6" >Make a deposit</div>
 </div>
