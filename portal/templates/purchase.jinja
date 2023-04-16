@@ -64,6 +64,7 @@
         </div>
     </div>
     {% for item in items_available_for_purchase %}
+        {% if item.base_currency != True %}
         <div class="row text-left">
             <div class="col-sm text-left">
                 {{ item.name }}
@@ -74,18 +75,18 @@
             <div class="col-sm text-left">
                 {{ item.description }}
             </div>
-            <div id="{{ item.currency|lower}}-current-price" value="{{ item.current_price_in_usd_cents }}" class="col-sm text-left">
+            <div id="{{ item.currency}}-current-price" value="{{ item.current_price_in_usd_cents }}" class="col-sm text-left">
                 {{ item.current_price_in_usd_dollars_formatted }}
             </div>
             <div class="col-sm text-left">
-                {{ user_ledger_accounts['user_' + item.currency|lower + '_balance'].items[0].balances.available_balance.amount }}
+                {{ user_ledger_account_categories[item.currency + ' - Total Balance'].balances.available_balance.amount }}
             </div>
             <div class="col-md-3 text-left">
-                <form onsubmit="initiatePurchase(event)" id="{{item.currency|lower}}">
+                <form onsubmit="initiatePurchase(event)" id="{{item.currency}}">
                     <div class="form-group">
                         <div class="row">
                             <div class="col-sm">
-                                <input type="number" name="{{item.currency|lower}}-amount" class="form-control" id="{{ item.currency|lower}}-amount" placeholder="Buy x {{ item.name }}s">
+                                <input type="number" name="{{item.currency}}-amount" class="form-control" id="{{ item.currency}}-amount" placeholder="Buy x {{ item.name }}s">
                             </div>
                             <div class="col-sm">
                                 <button class="btn btn-primary">Submit</button>
@@ -93,9 +94,8 @@
                         </div> 
                     </div>
                 </form>
-            </div>
-            
-            </div>
-                
+            </div>    
+        </div>
+        {% endif %}
     {% endfor %}
 {% endblock content %}

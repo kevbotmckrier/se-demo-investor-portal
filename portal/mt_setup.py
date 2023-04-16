@@ -27,11 +27,11 @@ def create_ledger():
 #     for ac in current_app.config['']
 
 
-def create_account_categories_with_bank_accounts():
+def create_ledgers_accounts_with_bank_accounts():
 
-    company_account_categories = current_app.config['company_account_categories'] if 'company_account_categories' in current_app.config else dict()
+    company_accounts = current_app.config['company_accounts'] if 'company_accounts' in current_app.config else dict()
 
-    for account in current_app.config['COMPANY_ACCOUNT_CATEGORIES_WITH_BANK_ACCOUNTS']:
+    for account in current_app.config['COMPANY_LEDGER_ACCOUNTS_WITH_BANK_ACCOUNTS']:
 
         if(account['internal_account_id'] is None):
             pass
@@ -47,10 +47,10 @@ def create_account_categories_with_bank_accounts():
 
         else:
 
-            metadata = account['account_category_metadata']
+            metadata = account['account_metadata']
             metadata['internal_account_id'] = account['internal_account_id']
 
-            lc = modern_treasury.ledger_account_categories.create(
+            la = modern_treasury.ledger_accounts.create(
                 name=account['name'],
                 normal_balance='debit',
                 currency=account['currency'],
@@ -58,11 +58,11 @@ def create_account_categories_with_bank_accounts():
                 metadata=metadata
             )
 
-            company_account_categories[account['name']] = lc
+            company_accounts[account['name']] = la
             
     print('Ledger Account Categories for bank accounts created.')
 
-    current_app.config['company_account_categories'] = company_account_categories
+    current_app.config['company_accounts'] = company_accounts
 
 def create_account_categories_per_currency():
 
@@ -141,22 +141,22 @@ def get_ledger():
     except:
         raise Exception("Unable to find ledger.")
     
-def get_account_categories_with_bank_accounts():
+def get_ledgers_accounts_with_bank_accounts():
 
-    company_account_categories = current_app.config['company_account_categories'] if 'company_account_categories' in current_app.config else dict()
+    company_accounts = current_app.config['company_accounts'] if 'company_accounts' in current_app.config else dict()
 
-    for account in current_app.config['COMPANY_ACCOUNT_CATEGORIES_WITH_BANK_ACCOUNTS']:
+    for account in current_app.config['COMPANY_LEDGER_ACCOUNTS_WITH_BANK_ACCOUNTS']:
 
-        company_account_categories[account['name']] = modern_treasury.ledger_account_categories.list(
+        company_accounts[account['name']] = modern_treasury.ledger_accounts.list(
                 ledger_id=current_app.config['ledger'].id,
-                metadata=account['account_category_metadata']
+                metadata=account['account_metadata']
             ).items[0]
 
-    if len(company_account_categories) == len(current_app.config['COMPANY_ACCOUNT_CATEGORIES_WITH_BANK_ACCOUNTS']):
-        current_app.config['company_account_categories'] = company_account_categories
-        print('Ledger Account Categories for bank accounts found.')
+    if len(company_accounts) == len(current_app.config['COMPANY_LEDGER_ACCOUNTS_WITH_BANK_ACCOUNTS']):
+        current_app.config['company_accounts'] = company_accounts
+        print('Ledger Accounts for bank accounts found.')
     else:
-        raise Exception("Unable to find LACs for bank accounts. Recommend deleting Ledger and recreating.")
+        raise Exception("Unable to find LAs for bank accounts. Recommend deleting Ledger and recreating.")
     
 def get_account_categories_per_currency():
 
@@ -213,10 +213,10 @@ def get_misc_accounts_per_currency():
             metadata = currency_la['metadata']
             metadata['currency'] = currency['currency']
 
-            company_accounts[currency['currency'] + ' - ' + currency_la['name']] = modern_treasury.ledger_account_categories.list(
+            company_accounts[currency['currency'] + ' - ' + currency_la['name']] = modern_treasury.ledger_accounts.list(
                 ledger_id=current_app.config['ledger'].id,
                 metadata=metadata
-            )
+            ).items[0]
 
     print('Global misc accounts created.')
 

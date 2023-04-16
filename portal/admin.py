@@ -64,7 +64,7 @@ def setup_ledgers():
         exit()
 
     try:
-        setup.create_account_categories_with_bank_accounts()
+        setup.create_ledgers_accounts_with_bank_accounts()
     except:
         print("Unable to create Leder Account Categories for Bank Accounts, exiting.")
         print(traceback.format_exc())

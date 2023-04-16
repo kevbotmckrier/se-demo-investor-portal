@@ -21,15 +21,24 @@ def load_user_ledger_accounts_and_categories(f):
                 'email': session['email']
             }
 
-            g.user_ledger_account_categories =  modern_treasury.ledger_account_categories.list(
+            user_ledger_account_categories =  modern_treasury.ledger_account_categories.list(
                 metadata=metadata_filters,
                 ledger_id=current_app.config['ledger'].id
-            )
+            ).items
+
+            g.user_ledger_account_categories = dict()
+            for lc in user_ledger_account_categories:
+
+                g.user_ledger_account_categories[lc.name] = lc
             
-            g.user_ledger_accounts = modern_treasury.ledger_accounts.list(
+            user_ledger_accounts = modern_treasury.ledger_accounts.list(
                 metadata=metadata_filters,
                 ledger_id=current_app.config['ledger'].id
-            )
+            ).items
+
+            g.user_ledger_accounts = dict()
+            for la in user_ledger_accounts:
+                g.user_ledger_accounts[la.name] = la
 
         return f(*args, **kwargs)
     return decorated_function
@@ -42,10 +51,10 @@ def load_bank_accounts(f):
                 'email': session['email']
             }
 
-#             counterparty =  modern_treasury.counterparties.list(metadata={ "email": session['email']})
-#             g.bank_accounts = counterparty.items[0].accounts
-#         return f(*args, **kwargs)
-#     return decorated_function
+            counterparty =  modern_treasury.counterparties.list(metadata={ "email": session['email']})
+            g.bank_accounts = counterparty.items[0].accounts
+        return f(*args, **kwargs)
+    return decorated_function
 
 def create_user_ledger_accounts_and_categories(f):
     @wraps(f)
@@ -102,7 +111,7 @@ def create_user_ledger_accounts_and_categories(f):
                         metadata_filter = lc_to_add_to['metadata']
                         metadata_filter['currency'] = currency['currency']
 
-                        if(user_ledger_account_categories[lc_name].metadata.items() <= metadata_filter.items()):
+                        if(metadata_filter.items() <= user_ledger_account_categories[lc_name].metadata.items()):
                             modern_treasury.ledger_account_categories.add_ledger_account(
                                 id=user_ledger_account_categories[lc_name].id,
                                 ledger_account_id=user_ledger_accounts[name].id
@@ -146,9 +155,6 @@ def load_ledger_transactions(f):
                 la_names[la.id] = la.name
 
             g.la_names = la_names
-            
-            print(metadata_filters)
-            print(current_app.config['ledger'].id)
             
         return f(*args, **kwargs)
     return decorated_function

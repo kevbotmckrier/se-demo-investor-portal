@@ -1,6 +1,6 @@
 import os
 import json
-from dotenv import load_dotenv
+from os import environ
 from datetime import date
 from flask.cli import AppGroup
 from flask import Flask
@@ -18,7 +18,15 @@ def create_app(config_filename='config.json'):
     
 
     app.config.from_file(config_filename, load=json.load)
-    app.config['LEDGER_NAME'] = app.config['COMPANY_NAME'] + ' - ' + date.today().isoformat()
+
+    if('LEDGER_ID' in environ):
+        app.config['LEDGER_NAME'] = app.config['COMPANY_NAME'] + ' - ' + environ['LEDGER_ID']
+    else:
+        app.config['LEDGER_NAME'] = app.config['COMPANY_NAME'] + ' - ' + date.today().isoformat()
+
+    for currency in app.config['CURRENCIES']:
+        if currency['base_currency'] == True:
+            app.config['BASE_CURRENCY'] = currency['currency']  
 
     # Custom Commands
     from portal import admin
@@ -32,7 +40,7 @@ def create_app(config_filename='config.json'):
             
             try:
                 mt_setup.get_ledger()
-                mt_setup.get_account_categories_with_bank_accounts()
+                mt_setup.get_ledgers_accounts_with_bank_accounts()
                 mt_setup.get_account_categories_per_currency()
                 mt_setup.get_global_misc_accounts()
                 mt_setup.get_misc_accounts_per_currency()

@@ -1,5 +1,5 @@
 {
-    "COMPANY_NAME": "Binance.us",
+    "COMPANY_NAME": "Charlie Co.",
     "COMPANY_NAME_SHORT": "Binance",
     "COMPANY_LOGO": "/static/small-icon.png",
     "COUNTERPARTY_ID": "574f75ea-5e22-430a-ab25-3bf7fa319e4a",
@@ -138,8 +138,8 @@
                 "sub-type": "currency-total"
             }
         }
-    ],  
-    "COMPANY_ACCOUNT_CATEGORIES_WITH_BANK_ACCOUNTS": [
+    ],
+    "COMPANY_LEDGER_ACCOUNTS_WITH_BANK_ACCOUNTS": [
         {
             "name": "Example Bank - FBO",
             "vendor": "modern-treasury",
@@ -151,7 +151,7 @@
             "currency": "USD",
             "connection_id": "cccda1b8-2b29-4785-a4df-08514dcd37fa",
             "bank": "Example Bank",
-            "account_category_metadata": {
+            "account_metadata": {
                 "type": "company-balance",
                 "subtype": "bank-account"
             }
@@ -163,7 +163,7 @@
             "currency": "USD",
             "custom": false,
             "currency_exponent": null,
-            "metadata":{
+            "metadata": {
                 "type": "customer-balance",
                 "subtype": "filler"
             }
