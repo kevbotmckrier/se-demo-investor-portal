@@ -128,7 +128,7 @@ def construct_deposit_ledger_transaction(bank, amount, email, metadata, descript
                 "subtype": "bank-account"
     }
 
-    for la in g.user_ledger_accounts:
+    for la in g.user_ledger_accounts.values():
         if user_deposit_account_metadata.items() <= la.metadata.items():
              user_balance_la_id = la.id
 
@@ -197,12 +197,12 @@ def construct_purchase_ledger_transaction(item, price, amount, description):
             "ledger_account_id": net_purchase_ids['USD']
         },
                 { 
-            "amount": str(amount),
+            "amount": str(int(amount)*100),
             "direction": "credit",
             "ledger_account_id": user_balance_ids[item]
         },
         { 
-            "amount": str(amount),
+            "amount": str(int(amount)*100),
             "direction": "debit",
             "ledger_account_id": net_purchase_ids[item]
         }

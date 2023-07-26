@@ -13,7 +13,7 @@
             <div class="col-md-4">
                 <h4 class="bg-primary p-2 display-8 rounded text-white"><strong>{{ balance[1].currency}} - {{ balance[0].split('_')|map('capitalize')|join(' ') }}</strong></h4>
                 {# <h4 class="bg-primary p-2 display-8 rounded text-white"><strong>{{balance}}</strong></h4> #}
-                <h3 class="bg-primary p-2 display-8 rounded text-white">{{ ('{:,.' +  balance[1].currency_exponent|string + 'f}'|string).format(balance[1].amount) }} </h3>
+                <h3 class="bg-primary p-2 display-8 rounded text-white">{{ ('{:,.' +  balance[1].currency_exponent|string + 'f}'|string).format(balance[1].amount/100) }} </h3>
             </div>
         {% endfor %}
         </div>

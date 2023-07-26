@@ -79,7 +79,7 @@
                 {{ item.current_price_in_usd_dollars_formatted }}
             </div>
             <div class="col-sm text-left">
-                {{ user_ledger_account_categories[item.currency + ' - Total Balance'].balances.available_balance.amount }}
+                {{ user_ledger_account_categories[item.currency + ' - Total Balance'].balances.available_balance.amount/100 }}
             </div>
             <div class="col-md-3 text-left">
                 <form onsubmit="initiatePurchase(event)" id="{{item.currency}}">

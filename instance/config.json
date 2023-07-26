@@ -1,8 +1,8 @@
 {
-    "COMPANY_NAME": "Charlie Co.",
-    "COMPANY_NAME_SHORT": "Binance",
-    "COMPANY_LOGO": "/static/small-icon.png",
-    "COUNTERPARTY_ID": "574f75ea-5e22-430a-ab25-3bf7fa319e4a",
+    "COMPANY_NAME": "Stock Central",
+    "COMPANY_NAME_SHORT": "Stock Central",
+    "COMPANY_LOGO": "https://cdn3.vectorstock.com/i/1000x1000/75/52/roller-coaster-icon-vector-26537552.jpg",
+    "COUNTERPARTY_ID": "683e358b-efc0-43b7-b94c-e9dcf01d063d",
     "DISTRIBUTIONS_START_DATE": "2023-03-24",
     "DISTRIBUTIONS_END_DATE": "2023-04-01",
     "PAYINS_START_DATE": "2023-02-27",
@@ -13,7 +13,7 @@
         "nouns": "balances and investments"
     },
     "ITEMS_FOR_SALE_COLLECTIVE_NOUN": "cryptocurrencies",
-    "ORIGINATING_ACCOUNT_ID": "c59851c8-614f-4a6c-9c8c-6394f172d859",
+    "ORIGINATING_ACCOUNT_ID": "b4db1624-4704-461e-a3ab-4d409950848d",
     "PAGES_AVAILABLE": [
         {
             "name": "ledger-dashboard",
@@ -26,19 +26,13 @@
             "description": "Deposit from Bank Account"
         },
         {
-            "name": "view_ledger_transactions",
-            "route": "/ledger-transactions",
-            "description": "Tranasction History"
-        },
-        {
             "name": "purchase",
             "route": "/purchase",
-            "description": "Buy Crypto"
+            "description": "Purchase investments"
         }
     ],
     "CURRENCIES_ON_DASHBOARD": [
-        "USD",
-        "BTC"
+        "USD"
     ],
     "USER_ATTRIBUTES": [
         {
@@ -171,23 +165,33 @@
     ],
     "CURRENCIES": [
         {
-            "name": "Bitcoin",
-            "currency": "BTC",
-            "custom": false,
-            "currency_exponent": null,
-            "description": "The OG",
-            "price_in_usd": 2721600,
+            "name": "Apple",
+            "currency": "APL",
+            "custom": true,
+            "currency_exponent": 2,
+            "description": "Apple stock",
+            "price_in_usd": 150000,
             "variation_percent": 10,
             "base_currency": false
         },
         {
-            "name": "Ethereum",
-            "currency": "ETH",
+            "name": "Index Fund",
+            "currency": "INF",
             "custom": true,
-            "currency_exponent": 18,
-            "description": "The up and comer",
-            "price_in_usd": 177011,
-            "variation_percent": 10,
+            "currency_exponent": 2,
+            "description": "Safer index funds",
+            "price_in_usd": 25000,
+            "variation_percent": 5,
+            "base_currency": false
+        },
+        {
+            "name": "Bonds",
+            "currency": "BON",
+            "custom": true,
+            "currency_exponent": 2,
+            "description": "Safest bonds",
+            "price_in_usd": 10000,
+            "variation_percent": 1,
             "base_currency": false
         },
         {
@@ -195,9 +199,9 @@
             "currency": "USD",
             "custom": false,
             "currency_exponent": null,
-            "description": "USA moneys",
+            "description": "US Dollars",
             "price_in_usd": 1,
-            "variation_percent": 10,
+            "variation_percent": 1,
             "base_currency": true
         }
     ]
